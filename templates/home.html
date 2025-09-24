@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylverith - School Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="static/Sylverith Logo.png" alt="Sylverith Logo" class="nav-logo">
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#plans" class="nav-link">Plans</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="demo-btn" onclick="requestDemo()">Request Demo</button>
+                        <a href="{{ url_for('login') }}" class="login-btn-nav">Login</a>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transform Your School with 
+                    <span class="highlight">Smart Management</span>
+                </h1>
+                <p class="hero-description">
+                    Sylverith is the comprehensive school management system that streamlines operations, 
+                    enhances communication, and empowers educators to focus on what matters most - teaching.
+                </p>
+                <div class="hero-actions">
+                    <button class="cta-primary" onclick="requestDemo()">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="cta-secondary" onclick="scrollToSection('services')">
+                        <i class="fas fa-play"></i>
+                        <span>Learn More</span>
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>500+</h3>
+                        <p>Schools Trust Us</p>
+                    </div>
+                    <div class="stat">
+                        <h3>50K+</h3>
+                        <p>Students Managed</p>
+                    </div>
+                    <div class="stat">
+                        <h3>99.9%</h3>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-graphic">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Student Portal</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-users"></i>
+                        <span>Parent Portal</span>
+                    </div>
+                    <div class="floating-card card-4">
+                        <i class="fas fa-book"></i>
+                        <span>Gradebook</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive School Management</h2>
+                <p class="section-description">
+                    Everything you need to run your school efficiently, all in one platform
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Student Management</h3>
+                    <p>Complete student profiles, enrollment tracking, and academic records management with real-time updates.</p>
+                    <ul class="service-features">
+                        <li>Student enrollment & registration</li>
+                        <li>Academic records & transcripts</li>
+                        <li>Attendance tracking</li>
+                        <li>Class assignments</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Teacher Portal</h3>
+                    <p>Empower educators with tools for lesson planning, grade management, and student communication.</p>
+                    <ul class="service-features">
+                        <li>Gradebook & assessment tools</li>
+                        <li>Lesson planning & resources</li>
+                        <li>Parent communication</li>
+                        <li>Performance analytics</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Parent Portal</h3>
+                    <p>Keep parents informed and engaged with real-time access to their child's academic progress.</p>
+                    <ul class="service-features">
+                        <li>Real-time grade access</li>
+                        <li>Teacher communication</li>
+                        <li>Attendance notifications</li>
+                        <li>Event & calendar updates</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Analytics & Reports</h3>
+                    <p>Make data-driven decisions with comprehensive analytics and customizable reporting tools.</p>
+                    <ul class="service-features">
+                        <li>Academic performance insights</li>
+                        <li>Attendance analytics</li>
+                        <li>Custom report generation</li>
+                        <li>Trend analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Event Management</h3>
+                    <p>Streamline school events, parent-teacher conferences, and academic calendar management.</p>
+                    <ul class="service-features">
+                        <li>Event scheduling & planning</li>
+                        <li>Parent-teacher conferences</li>
+                        <li>Academic calendar</li>
+                        <li>Notification system</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security & Compliance</h3>
+                    <p>Enterprise-grade security with FERPA compliance and data protection for peace of mind.</p>
+                    <ul class="service-features">
+                        <li>FERPA compliant</li>
+                        <li>Data encryption</li>
+                        <li>Role-based access</li>
+                        <li>Audit trails</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section id="plans" class="plans">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Choose Your Plan</h2>
+                <p class="section-description">
+                    Flexible pricing options designed to fit schools of all sizes
+                </p>
+            </div>
+            
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Starter</h3>
+                        <p class="plan-description">Perfect for small schools</p>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">29</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 100 students</li>
+                        <li><i class="fas fa-check"></i> Basic student management</li>
+                        <li><i class="fas fa-check"></i> Gradebook</li>
+                        <li><i class="fas fa-check"></i> Parent portal</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('starter')">Get Started</button>
+                </div>
+                
+                <div class="plan-card featured">
+                    <div class="plan-badge">Most Popular</div>
+                    <div class="plan-header">
+                        <h3 class="plan-name">Professional</h3>
+                        <p class="plan-description">Ideal for growing schools</p>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">79</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 500 students</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Custom reports</li>
+                        <li><i class="fas fa-check"></i> Event management</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('professional')">Get Started</button>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Enterprise</h3>
+                        <p class="plan-description">For large institutions</p>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">199</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Unlimited students</li>
+                        <li><i class="fas fa-check"></i> Multi-campus support</li>
+                        <li><i class="fas fa-check"></i> Custom integrations</li>
+                        <li><i class="fas fa-check"></i> Advanced security</li>
+                        <li><i class="fas fa-check"></i> 24/7 support</li>
+                        <li><i class="fas fa-check"></i> Dedicated manager</li>
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('enterprise')">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2 class="section-title">Ready to Transform Your School?</h2>
+                    <p class="section-description">
+                        Book a personalized demo and see how Sylverith can streamline your school operations.
+                    </p>
+                    
+                    <div class="contact-features">
+                        <div class="contact-feature">
+                            <i class="fas fa-calendar-check"></i>
+                            <div>
+                                <h4>Free Demo</h4>
+                                <p>See Sylverith in action with a personalized demonstration</p>
+                            </div>
+                        </div>
+                        <div class="contact-feature">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Expert Consultation</h4>
+                                <p>Get advice from our education technology specialists</p>
+                            </div>
+                        </div>
+                        <div class="contact-feature">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <h4>Quick Setup</h4>
+                                <p>Get up and running in just a few days with our support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <h3>Book Your Demo</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="contactEmail" name="contactEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="schoolName" name="schoolName" placeholder="School Name" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="schoolSize" name="schoolSize" required>
+                                <option value="">Select School Size</option>
+                                <option value="1-100">1-100 students</option>
+                                <option value="101-500">101-500 students</option>
+                                <option value="501-1000">501-1000 students</option>
+                                <option value="1000+">1000+ students</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Tell us about your school's needs..." rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <span>Book Demo</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="static/sylverith-logov3c3png.png" alt="Sylverith Logo" class="footer-logo">
+                    <h3>Sylverith</h3>
+                    <p>Empowering education through innovative technology solutions.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#services">Features</a>
+                        <a href="#plans">Pricing</a>
+                        <a href="#">Security</a>
+                        <a href="#">Integrations</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Press</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="#">Help Center</a>
+                        <a href="#">Documentation</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Status</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                        <a href="#">GDPR</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sylverith. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

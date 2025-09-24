@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sylverith</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="admin-nav-container">
+            <div class="admin-nav-brand">
+                <img src="static/sylverith-logov3c3png.png" alt="Sylverith Logo" class="admin-nav-logo">
+            </div>
+            
+            <div class="admin-nav-center">
+                <div class="admin-nav-content">
+                    <span class="admin-nav-title">School Management System</span>
+                    <div class="admin-nav-subtitle">
+                        <span>Students</span>
+                        <span>-</span>
+                        <span>Teachers</span>
+                        <span>-</span>
+                        <span>Administration</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-nav-actions">
+                <div class="admin-user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin User</span>
+                </div>
+                <a href="{{ url_for('home') }}" class="admin-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Sidebar -->
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-menu">
+                <a href="#dashboard" class="sidebar-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#students" class="sidebar-item" onclick="showSection('students')">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+                <a href="#teachers" class="sidebar-item" onclick="showSection('teachers')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Teachers</span>
+                </a>
+                <a href="#assistants" class="sidebar-item" onclick="showSection('assistants')">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Assistants</span>
+                </a>
+                <a href="#marks" class="sidebar-item" onclick="showSection('marks')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Marks</span>
+                </a>
+                <a href="#contact" class="sidebar-item" onclick="showSection('contact')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+                <a href="#reports" class="sidebar-item" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#settings" class="sidebar-item" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="admin-section active">
+                <div class="section-header">
+                    <h1>Dashboard Overview</h1>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1,247</h3>
+                            <p>Total Students</p>
+                            <span class="stat-change positive">+12 this month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>45</h3>
+                            <p>Teachers</p>
+                            <span class="stat-change neutral">No change</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>10</h3>
+                            <p>Total Classes</p>
+                            <span class="stat-change positive">+2 this year</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>5</h3>
+                            <p>Total Levels</p>
+                            <span class="stat-change neutral">No change</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Recent Activities</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <i class="fas fa-user-plus"></i>
+                                <div>
+                                    <p>New student registered: John Doe</p>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-edit"></i>
+                                <div>
+                                    <p>Parent profile updated: Sarah Smith</p>
+                                    <span>4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <div>
+                                    <p>New class created: Grade 5A</p>
+                                    <span>1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showSection('students')">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Add Student</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('teachers')">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Add Teacher</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Section -->
+            <section id="students-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Student Management</h1>
+                    <button class="add-btn" onclick="openStudentModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Student
+                    </button>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ST001</td>
+                                    <td>John Doe</td>
+                                    <td>Grade 5A</td>
+                                    <td>john.doe@student.sylverith.com</td>
+                                    <td>+1 234-567-8901</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editStudent('ST001')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteStudent('ST001')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ST002</td>
+                                    <td>Sarah Smith</td>
+                                    <td>Grade 4B</td>
+                                    <td>sarah.smith@student.sylverith.com</td>
+                                    <td>+1 234-567-8902</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editStudent('ST002')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteStudent('ST002')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Teachers Section -->
+            <section id="teachers-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Teacher Management</h1>
+                    <button class="add-btn" onclick="openTeacherModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Teacher
+                    </button>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Teacher ID</th>
+                                    <th>Name</th>
+                                    <th>Subject</th>
+                                    <th>Classes</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>T001</td>
+                                    <td>Dr. Emily Johnson</td>
+                                    <td>Mathematics</td>
+                                    <td>Grade 5A, 5B</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editTeacher('T001')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteTeacher('T001')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assistants Section -->
+            <section id="assistants-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Assistant Management</h1>
+                    <button class="add-btn" onclick="openAssistantModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Assistant
+                    </button>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Assistant ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AS001</td>
+                                    <td>Sarah Wilson</td>
+                                    <td>sarah.wilson@sylverith.com</td>
+                                    <td><span class="role-badge admin">Admin</span></td>
+                                    <td>Administration</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editAssistant('AS001')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteAssistant('AS001')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>AS002</td>
+                                    <td>Michael Brown</td>
+                                    <td>michael.brown@sylverith.com</td>
+                                    <td><span class="role-badge moderator">Moderator</span></td>
+                                    <td>Student Affairs</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editAssistant('AS002')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteAssistant('AS002')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marks Section -->
+            <section id="marks-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Marks Management</h1>
+                    <div class="marks-controls">
+                        <select id="semesterSelect" class="form-select" onchange="loadMarksTable()">
+                            <option value="">Select Semester</option>
+                            <option value="semester1">Semester 1</option>
+                            <option value="semester2">Semester 2</option>
+                            <option value="semester3">Semester 3</option>
+                        </select>
+                        <select id="classSelect" class="form-select" onchange="loadMarksTable()">
+                            <option value="">Select Class</option>
+                            <option value="Grade 1A">Grade 1A</option>
+                            <option value="Grade 1B">Grade 1B</option>
+                            <option value="Grade 2A">Grade 2A</option>
+                            <option value="Grade 2B">Grade 2B</option>
+                            <option value="Grade 3A">Grade 3A</option>
+                            <option value="Grade 3B">Grade 3B</option>
+                            <option value="Grade 4A">Grade 4A</option>
+                            <option value="Grade 4B">Grade 4B</option>
+                            <option value="Grade 5A">Grade 5A</option>
+                            <option value="Grade 5B">Grade 5B</option>
+                        </select>
+                        <button class="add-btn" onclick="openMarksModal()">
+                            <i class="fas fa-plus"></i>
+                            Add Marks
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-container">
+                        <table class="data-table marks-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Arabic</th>
+                                    <th>English</th>
+                                    <th>Math</th>
+                                    <th>Physics</th>
+                                    <th>Art</th>
+                                    <th>Total</th>
+                                    <th>Average</th>
+                                    <th>Grade</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ST001</td>
+                                    <td>John Doe</td>
+                                    <td><span class="mark-cell">18</span></td>
+                                    <td><span class="mark-cell">19</span></td>
+                                    <td><span class="mark-cell">17</span></td>
+                                    <td><span class="mark-cell">18</span></td>
+                                    <td><span class="mark-cell">19</span></td>
+                                    <td><span class="total-mark">91</span></td>
+                                    <td><span class="average-mark">18.2</span></td>
+                                    <td><span class="grade-badge excellent">A</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editMarks('ST001')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteMarks('ST001')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ST002</td>
+                                    <td>Sarah Smith</td>
+                                    <td><span class="mark-cell">17</span></td>
+                                    <td><span class="mark-cell">18</span></td>
+                                    <td><span class="mark-cell">19</span></td>
+                                    <td><span class="mark-cell">17</span></td>
+                                    <td><span class="mark-cell">18</span></td>
+                                    <td><span class="total-mark">89</span></td>
+                                    <td><span class="average-mark">17.8</span></td>
+                                    <td><span class="grade-badge good">B</span></td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editMarks('ST002')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteMarks('ST002')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Contact Management</h1>
+                    <p>Send emails to students and parents with customizable templates</p>
+                </div>
+
+                <div class="contact-container">
+                    <!-- Audience Selection -->
+                    <div class="contact-audience-card">
+                        <h3><i class="fas fa-users"></i> Select Audience</h3>
+                        <div class="audience-controls">
+                            <div class="audience-type">
+                                <label class="audience-radio">
+                                    <input type="radio" name="audienceType" value="students" checked>
+                                    <span><i class="fas fa-user-graduate"></i> Students</span>
+                                </label>
+                                <label class="audience-radio">
+                                    <input type="radio" name="audienceType" value="parents">
+                                    <span><i class="fas fa-users"></i> Parents</span>
+                                </label>
+                            </div>
+                            
+                            <div class="filter-controls">
+                                <div class="filter-group">
+                                    <label for="classFilter">Filter by Class:</label>
+                                    <select id="classFilter" class="form-select" onchange="updateAudienceCount()">
+                                        <option value="">All Classes</option>
+                                        <option value="Grade 1A">Grade 1A</option>
+                                        <option value="Grade 1B">Grade 1B</option>
+                                        <option value="Grade 2A">Grade 2A</option>
+                                        <option value="Grade 2B">Grade 2B</option>
+                                        <option value="Grade 3A">Grade 3A</option>
+                                        <option value="Grade 3B">Grade 3B</option>
+                                        <option value="Grade 4A">Grade 4A</option>
+                                        <option value="Grade 4B">Grade 4B</option>
+                                        <option value="Grade 5A">Grade 5A</option>
+                                        <option value="Grade 5B">Grade 5B</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label for="gradeFilter">Filter by Grade:</label>
+                                    <select id="gradeFilter" class="form-select" onchange="updateAudienceCount()">
+                                        <option value="">All Grades</option>
+                                        <option value="1">Grade 1</option>
+                                        <option value="2">Grade 2</option>
+                                        <option value="3">Grade 3</option>
+                                        <option value="4">Grade 4</option>
+                                        <option value="5">Grade 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="audience-summary">
+                                <span id="audienceCount">0 recipients selected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Composer -->
+                    <div class="contact-composer-card">
+                        <h3><i class="fas fa-edit"></i> Compose Email</h3>
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="emailSubject">Subject:</label>
+                                <input type="text" id="emailSubject" name="emailSubject" placeholder="Enter email subject" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailTemplate">Email Template:</label>
+                                <select id="emailTemplate" class="form-select" onchange="loadEmailTemplate()">
+                                    <option value="custom">Custom Message</option>
+                                    <option value="student_greeting">Student Greeting</option>
+                                    <option value="parent_greeting">Parent Greeting</option>
+                                    <option value="announcement">General Announcement</option>
+                                    <option value="reminder">Reminder</option>
+                                    <option value="event">Event Invitation</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailMessage">Message:</label>
+                                <textarea id="emailMessage" name="emailMessage" rows="12" placeholder="Type your message here. Use {student} for student name or {parent} for parent name..." required></textarea>
+                                <div class="template-variables">
+                                    <span class="variable-hint">Available variables:</span>
+                                    <span class="variable-tag" onclick="insertVariable('{student}')">{student}</span>
+                                    <span class="variable-tag" onclick="insertVariable('{parent}')">{parent}</span>
+                                    <span class="variable-tag" onclick="insertVariable('{class}')">{class}</span>
+                                    <span class="variable-tag" onclick="insertVariable('{school}')">{school}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="previewEmail()">
+                                    <i class="fas fa-eye"></i> Preview
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Send Email
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Email Preview Modal -->
+                <div id="emailPreviewModal" class="modal">
+                    <div class="modal-content email-preview-content">
+                        <div class="modal-header">
+                            <h2>Email Preview</h2>
+                            <span class="close" onclick="closeEmailPreview()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="preview-info">
+                                <p><strong>To:</strong> <span id="previewRecipients">0 recipients</span></p>
+                                <p><strong>Subject:</strong> <span id="previewSubject"></span></p>
+                            </div>
+                            <div class="preview-message" id="previewMessage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closeEmailPreview()">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="sendEmailFromPreview()">
+                                <i class="fas fa-paper-plane"></i> Send Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Reports & Analytics</h1>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Student Enrollment Report</h3>
+                        <p>Track student enrollment trends over time</p>
+                        <button class="report-btn">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3>Attendance Summary</h3>
+                        <p>Monthly attendance statistics and trends</p>
+                        <button class="report-btn">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3>Academic Performance</h3>
+                        <p>Grade distribution and performance metrics</p>
+                        <button class="report-btn">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3>Parent Engagement</h3>
+                        <p>Parent portal usage and communication stats</p>
+                        <button class="report-btn">Generate Report</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="admin-section">
+                <div class="section-header">
+                    <h1>System Settings</h1>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>School Information</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>School Name</label>
+                                <input type="text" value="Sylverith Academy">
+                            </div>
+                            <div class="form-group">
+                                <label>School Address</label>
+                                <input type="text" value="123 Education Street">
+                            </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>System Preferences</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Default Academic Year</label>
+                                <select>
+                                    <option>2024-2025</option>
+                                    <option>2023-2024</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Grade Scale</label>
+                                <select>
+                                    <option>A-F Scale</option>
+                                    <option>1-100 Scale</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content student-modal-content">
+            <div class="modal-header">
+                <h2>Add New Student</h2>
+                <span class="close" onclick="closeStudentModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="studentForm">
+                <div class="modal-body">
+                    <!-- Student Information Section -->
+                    <div class="student-info-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-user-graduate"></i> Student Information
+                        </h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" name="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" name="studentId" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentClass">Class</label>
+                        <select id="studentClass" name="studentClass" required>
+                            <option value="">Select Class</option>
+                            <option value="Grade 1A">Grade 1A</option>
+                            <option value="Grade 1B">Grade 1B</option>
+                            <option value="Grade 2A">Grade 2A</option>
+                            <option value="Grade 2B">Grade 2B</option>
+                            <option value="Grade 3A">Grade 3A</option>
+                            <option value="Grade 3B">Grade 3B</option>
+                            <option value="Grade 4A">Grade 4A</option>
+                            <option value="Grade 4B">Grade 4B</option>
+                            <option value="Grade 5A">Grade 5A</option>
+                            <option value="Grade 5B">Grade 5B</option>
+                        </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentPhone">Phone Number</label>
+                                <input type="tel" id="studentPhone" name="studentPhone">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" id="studentEmail" name="studentEmail">
+                    </div>
+                </div>
+                    
+                    <!-- Parent Buttons Section -->
+                    <div class="parent-buttons-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-users"></i> Add Parents
+                        </h3>
+                        <div class="parent-buttons">
+                            <button type="button" class="parent-btn" onclick="openParentModal('mother')">
+                                <i class="fas fa-female"></i>
+                                <span>Add Mother</span>
+                            </button>
+                            <button type="button" class="parent-btn" onclick="openParentModal('father')">
+                                <i class="fas fa-male"></i>
+                                <span>Add Father</span>
+                            </button>
+                            <button type="button" class="parent-btn" onclick="openParentModal('supervisor')">
+                                <i class="fas fa-user-tie"></i>
+                                <span>Add Supervisor</span>
+                            </button>
+                        </div>
+                        <div id="parentStatus" class="parent-status"></div>
+                </div>
+                </div>
+                
+                <div class="modal-footer">
+                <button type="submit" class="submit-btn">Add Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Parent Modal -->
+    <div id="parentModal" class="modal">
+        <div class="modal-content parent-modal-content">
+            <div class="modal-header">
+                <h2 id="parentModalTitle">Add Parent</h2>
+                <span class="close" onclick="closeParentModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="parentForm">
+                <input type="hidden" id="parentType" name="parentType">
+                <div class="parent-modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parentName">Full Name</label>
+                        <input type="text" id="parentName" name="parentName" required>
+                    </div>
+                    <div class="form-group">
+                            <label for="parentPhone">Phone Number</label>
+                            <input type="tel" id="parentPhone" name="parentPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parentEmail">Email</label>
+                        <input type="email" id="parentEmail" name="parentEmail" required>
+                    </div>
+                    <div class="form-group">
+                            <label for="parentAddress">Address</label>
+                            <input type="text" id="parentAddress" name="parentAddress" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Add Parent</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="studentDetailsModal" class="modal">
+        <div class="modal-content student-details-content">
+            <div class="modal-header">
+                <h2 id="studentDetailsTitle">Student Details</h2>
+                <span class="close" onclick="closeStudentDetailsModal()">&times;</span>
+            </div>
+            <div class="student-details-body">
+                <!-- Student Information Section -->
+                <div class="details-section">
+                    <h3><i class="fas fa-user-graduate"></i> Student Information</h3>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <label>Student ID:</label>
+                            <span id="detailStudentId">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Full Name:</label>
+                            <span id="detailStudentName">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Class:</label>
+                            <span id="detailStudentClass">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Email:</label>
+                            <span id="detailStudentEmail">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Phone:</label>
+                            <span id="detailStudentPhone">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Status:</label>
+                            <span id="detailStudentStatus">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Enrollment Date:</label>
+                            <span id="detailStudentEnrollment">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parents Information Section -->
+                <div class="details-section">
+                    <h3><i class="fas fa-users"></i> Parents Information</h3>
+                    <div id="parentsDetailsContainer">
+                        <p class="no-parents">No parents information available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeStudentDetailsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assistant Modal -->
+    <div id="assistantModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Assistant</h2>
+                <span class="close" onclick="closeAssistantModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="assistantForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="assistantName">Full Name</label>
+                        <input type="text" id="assistantName" name="assistantName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="assistantEmail">Email</label>
+                        <input type="email" id="assistantEmail" name="assistantEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="assistantRole">Role</label>
+                        <select id="assistantRole" name="assistantRole" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="moderator">Moderator</option>
+                            <option value="viewer">Viewer</option>
+                            <option value="editor">Editor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="assistantDepartment">Department</label>
+                        <select id="assistantDepartment" name="assistantDepartment" required>
+                            <option value="">Select Department</option>
+                            <option value="Administration">Administration</option>
+                            <option value="Student Affairs">Student Affairs</option>
+                            <option value="Academic Affairs">Academic Affairs</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT Support">IT Support</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="assistantPhone">Phone Number</label>
+                    <input type="tel" id="assistantPhone" name="assistantPhone">
+                </div>
+                <div class="form-group">
+                    <label for="assistantPermissions">Permissions</label>
+                    <div class="permissions-grid">
+                        <label class="permission-item">
+                            <input type="checkbox" name="permissions" value="students"> Student Management
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" name="permissions" value="teachers"> Teacher Management
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" name="permissions" value="reports"> View Reports
+                        </label>
+                        <label class="permission-item">
+                            <input type="checkbox" name="permissions" value="settings"> System Settings
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Add Assistant</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Teacher Modal -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content teacher-modal-content">
+            <div class="modal-header">
+                <h2 id="teacherModalTitle">Add New Teacher</h2>
+                <span class="close" onclick="closeTeacherModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="teacherForm">
+                <div class="modal-body">
+                    <!-- Teacher Information Section -->
+                    <div class="teacher-info-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-chalkboard-teacher"></i> Teacher Information
+                        </h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="teacherName">Full Name</label>
+                                <input type="text" id="teacherName" name="teacherName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="teacherEmail">Email</label>
+                                <input type="email" id="teacherEmail" name="teacherEmail" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="teacherPhone">Phone Number</label>
+                                <input type="tel" id="teacherPhone" name="teacherPhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="teacherSubject">Subject</label>
+                                <select id="teacherSubject" name="teacherSubject" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="Arabic">Arabic</option>
+                                    <option value="English">English</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Art">Art</option>
+                                    <option value="Science">Science</option>
+                                    <option value="History">History</option>
+                                    <option value="Geography">Geography</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class Assignment Section -->
+                    <div class="class-assignment-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-users"></i> Class Assignment
+                        </h3>
+                        <div class="classes-selection">
+                            <button type="button" class="add-class-btn" onclick="openClassSelectionModal()">
+                                <i class="fas fa-plus"></i>
+                                Add Class
+                            </button>
+                            <div id="selectedClasses" class="selected-classes">
+                                <p class="no-classes">No classes selected yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Add Teacher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Class Selection Modal -->
+    <div id="classSelectionModal" class="modal">
+        <div class="modal-content class-selection-modal-content">
+            <div class="modal-header">
+                <h2>Select Classes</h2>
+                <span class="close" onclick="closeClassSelectionModal()">&times;</span>
+            </div>
+            <div class="class-selection-body">
+                <div class="simple-class-grid">
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 1A">
+                        <span>Grade 1A</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 1B">
+                        <span>Grade 1B</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 2A">
+                        <span>Grade 2A</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 2B">
+                        <span>Grade 2B</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 3A">
+                        <span>Grade 3A</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 3B">
+                        <span>Grade 3B</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 4A">
+                        <span>Grade 4A</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 4B">
+                        <span>Grade 4B</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 5A">
+                        <span>Grade 5A</span>
+                    </label>
+                    <label class="simple-class-checkbox">
+                        <input type="checkbox" name="classSelection" value="Grade 5B">
+                        <span>Grade 5B</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeClassSelectionModal()">Cancel</button>
+                <button type="button" class="submit-btn" onclick="confirmClassSelection()">Add Selected Classes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marks Modal -->
+    <div id="marksModal" class="modal">
+        <div class="modal-content marks-modal-content">
+            <div class="modal-header">
+                <h2>Add Student Marks</h2>
+                <span class="close" onclick="closeMarksModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="marksForm">
+                <div class="marks-modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="marksStudent">Select Student</label>
+                            <select id="marksStudent" name="marksStudent" required>
+                                <option value="">Select Student</option>
+                                <option value="ST001">ST001 - John Doe</option>
+                                <option value="ST002">ST002 - Sarah Smith</option>
+                            </select>
+                </div>
+                <div class="form-group">
+                            <label for="marksSemester">Semester</label>
+                            <select id="marksSemester" name="marksSemester" required>
+                                <option value="">Select Semester</option>
+                                <option value="semester1">Semester 1</option>
+                                <option value="semester2">Semester 2</option>
+                                <option value="semester3">Semester 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="marks-grid">
+                        <div class="subject-marks">
+                            <h3><i class="fas fa-book"></i> Subject Marks</h3>
+                            <div class="marks-inputs">
+                                <div class="mark-input-group">
+                                    <label for="arabicMark">Arabic</label>
+                                    <input type="number" id="arabicMark" name="arabicMark" min="0" max="20" placeholder="0-20">
+                                </div>
+                                <div class="mark-input-group">
+                                    <label for="englishMark">English</label>
+                                    <input type="number" id="englishMark" name="englishMark" min="0" max="20" placeholder="0-20">
+                                </div>
+                                <div class="mark-input-group">
+                                    <label for="mathMark">Math</label>
+                                    <input type="number" id="mathMark" name="mathMark" min="0" max="20" placeholder="0-20">
+                                </div>
+                                <div class="mark-input-group">
+                                    <label for="physicsMark">Physics</label>
+                                    <input type="number" id="physicsMark" name="physicsMark" min="0" max="20" placeholder="0-20">
+                                </div>
+                                <div class="mark-input-group">
+                                    <label for="artMark">Art</label>
+                                    <input type="number" id="artMark" name="artMark" min="0" max="20" placeholder="0-20">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="marks-summary">
+                            <h3><i class="fas fa-calculator"></i> Summary</h3>
+                            <div class="summary-stats">
+                                <div class="stat-item">
+                                    <label>Total Marks:</label>
+                                    <span id="totalMarks">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <label>Average:</label>
+                                    <span id="averageMarks">0.0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <label>Grade:</label>
+                                    <span id="gradeMarks" class="grade-badge">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Save Marks</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='database.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin-script.js') }}"></script>
+</body>
+</html>
