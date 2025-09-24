@@ -173,6 +173,14 @@
                                 <i class="fas fa-chalkboard-teacher"></i>
                                 <span>Add Teacher</span>
                             </button>
+                            <button class="quick-action-btn" onclick="showSection('assistants')">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Add Assistant</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('contact')">
+                                <i class="fas fa-envelope"></i>
+                                <span>Send Email</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -375,9 +383,9 @@
                             <option value="Grade 5B">Grade 5B</option>
                         </select>
                         <button class="add-btn" onclick="openMarksModal()">
-                            <i class="fas fa-plus"></i>
+                        <i class="fas fa-plus"></i>
                             Add Marks
-                        </button>
+                    </button>
                     </div>
                 </div>
 
@@ -679,7 +687,6 @@
                         <input type="text" id="studentId" name="studentId" required>
                     </div>
                 </div>
-                <div class="form-row">
                     <div class="form-group">
                         <label for="studentClass">Class</label>
                         <select id="studentClass" name="studentClass" required>
@@ -695,38 +702,20 @@
                             <option value="Grade 5A">Grade 5A</option>
                             <option value="Grade 5B">Grade 5B</option>
                         </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="studentPhone">Phone Number</label>
-                                <input type="tel" id="studentPhone" name="studentPhone">
-                            </div>
                     </div>
-                    <div class="form-group">
-                        <label for="studentEmail">Email</label>
-                        <input type="email" id="studentEmail" name="studentEmail">
                     </div>
-                </div>
                     
-                    <!-- Parent Buttons Section -->
-                    <div class="parent-buttons-section">
+                    <!-- Tutor Section -->
+                    <div class="tutor-section">
                         <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
-                            <i class="fas fa-users"></i> Add Parents
+                            <i class="fas fa-user-graduate"></i> Add Tutor
                         </h3>
-                        <div class="parent-buttons">
-                            <button type="button" class="parent-btn" onclick="openParentModal('mother')">
-                                <i class="fas fa-female"></i>
-                                <span>Add Mother</span>
-                            </button>
-                            <button type="button" class="parent-btn" onclick="openParentModal('father')">
-                                <i class="fas fa-male"></i>
-                                <span>Add Father</span>
-                            </button>
-                            <button type="button" class="parent-btn" onclick="openParentModal('supervisor')">
-                                <i class="fas fa-user-tie"></i>
-                                <span>Add Supervisor</span>
-                            </button>
-                        </div>
-                        <div id="parentStatus" class="parent-status"></div>
+                        <button type="button" class="add-tutor-btn" onclick="console.log('Button clicked'); openTutorModal();">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Tutor</span>
+                        </button>
+                        
+                        <div id="tutorStatus" class="tutor-status"></div>
                 </div>
                 </div>
                 
@@ -765,8 +754,8 @@
                     <div class="form-group">
                             <label for="parentAddress">Address</label>
                             <input type="text" id="parentAddress" name="parentAddress" required>
-                        </div>
                     </div>
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="submit-btn">Add Parent</button>
@@ -800,14 +789,6 @@
                             <span id="detailStudentClass">-</span>
                         </div>
                         <div class="detail-item">
-                            <label>Email:</label>
-                            <span id="detailStudentEmail">-</span>
-                        </div>
-                        <div class="detail-item">
-                            <label>Phone:</label>
-                            <span id="detailStudentPhone">-</span>
-                        </div>
-                        <div class="detail-item">
                             <label>Status:</label>
                             <span id="detailStudentStatus">-</span>
                         </div>
@@ -834,67 +815,140 @@
 
     <!-- Assistant Modal -->
     <div id="assistantModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content assistant-modal-content">
             <div class="modal-header">
                 <h2>Add New Assistant</h2>
                 <span class="close" onclick="closeAssistantModal()">&times;</span>
             </div>
             <form class="admin-form" id="assistantForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="assistantName">Full Name</label>
-                        <input type="text" id="assistantName" name="assistantName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="assistantEmail">Email</label>
-                        <input type="email" id="assistantEmail" name="assistantEmail" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="assistantRole">Role</label>
-                        <select id="assistantRole" name="assistantRole" required>
-                            <option value="">Select Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="moderator">Moderator</option>
-                            <option value="viewer">Viewer</option>
-                            <option value="editor">Editor</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="assistantDepartment">Department</label>
-                        <select id="assistantDepartment" name="assistantDepartment" required>
-                            <option value="">Select Department</option>
-                            <option value="Administration">Administration</option>
-                            <option value="Student Affairs">Student Affairs</option>
-                            <option value="Academic Affairs">Academic Affairs</option>
-                            <option value="Finance">Finance</option>
-                            <option value="IT Support">IT Support</option>
-                        </select>
-                    </div>
+                <div class="modal-body">
+                    <!-- Assistant Information Section -->
+                    <div class="assistant-info-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-user-shield"></i> Assistant Information
+                        </h3>
+                        <div class="form-row">
+                <div class="form-group">
+                                <label for="assistantName">Full Name</label>
+                                <input type="text" id="assistantName" name="assistantName" required>
                 </div>
                 <div class="form-group">
-                    <label for="assistantPhone">Phone Number</label>
-                    <input type="tel" id="assistantPhone" name="assistantPhone">
+                                <label for="assistantEmail">Email</label>
+                                <input type="email" id="assistantEmail" name="assistantEmail" required>
                 </div>
-                <div class="form-group">
-                    <label for="assistantPermissions">Permissions</label>
-                    <div class="permissions-grid">
-                        <label class="permission-item">
-                            <input type="checkbox" name="permissions" value="students"> Student Management
-                        </label>
-                        <label class="permission-item">
-                            <input type="checkbox" name="permissions" value="teachers"> Teacher Management
-                        </label>
-                        <label class="permission-item">
-                            <input type="checkbox" name="permissions" value="reports"> View Reports
-                        </label>
-                        <label class="permission-item">
-                            <input type="checkbox" name="permissions" value="settings"> System Settings
-                        </label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="assistantRole">Role</label>
+                                <select id="assistantRole" name="assistantRole" required>
+                                    <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="moderator">Moderator</option>
+                                    <option value="viewer">Viewer</option>
+                                    <option value="editor">Editor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="assistantDepartment">Department</label>
+                                <select id="assistantDepartment" name="assistantDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="Administration">Administration</option>
+                                    <option value="Student Affairs">Student Affairs</option>
+                                    <option value="Academic Affairs">Academic Affairs</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="IT Support">IT Support</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="assistantPhone">Phone Number</label>
+                            <input type="tel" id="assistantPhone" name="assistantPhone">
+                        </div>
+                    </div>
+                    
+                    <!-- Permissions Section -->
+                    <div class="permissions-section">
+                        <h3 style="color: #072A53; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #4A90E2;">
+                            <i class="fas fa-key"></i> Permissions
+                        </h3>
+                        <div class="permissions-grid">
+                            <label class="permission-item">
+                                <input type="checkbox" name="permissions" value="students"> Student Management
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" name="permissions" value="teachers"> Teacher Management
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" name="permissions" value="reports"> View Reports
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" name="permissions" value="settings"> System Settings
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn">Add Assistant</button>
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Add Assistant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tutor Modal -->
+    <div id="tutorModal" class="modal">
+        <div class="modal-content tutor-modal-content">
+            <div class="modal-header">
+                <h2>Add New Tutor</h2>
+                <span class="close" onclick="closeTutorModal()">&times;</span>
+            </div>
+            <form class="admin-form" id="tutorForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tutorName">Tutor Name</label>
+                            <input type="text" id="tutorName" name="tutorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tutorPhone">Phone Number</label>
+                            <input type="tel" id="tutorPhone" name="tutorPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tutorEmail">Email</label>
+                        <input type="email" id="tutorEmail" name="tutorEmail">
+                    </div>
+                    
+                    <!-- Relationship Selection -->
+                    <div class="relationship-section">
+                        <h4 style="color: #072A53; margin-bottom: 15px; font-size: 1rem;">
+                            <i class="fas fa-heart"></i> Relationship
+                        </h4>
+                        <div class="relationship-buttons">
+                            <button type="button" class="relationship-btn" onclick="selectRelationship('father')">
+                                <i class="fas fa-male"></i>
+                                <span>Father</span>
+                            </button>
+                            <button type="button" class="relationship-btn" onclick="selectRelationship('mother')">
+                                <i class="fas fa-female"></i>
+                                <span>Mother</span>
+                            </button>
+                            <button type="button" class="relationship-btn" onclick="selectRelationship('other')">
+                                <i class="fas fa-user"></i>
+                                <span>Other</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Other Relationship Field (initially hidden) -->
+                        <div id="otherRelationshipField" class="form-group" style="display: none;">
+                            <label for="otherRelationship">Specify Relationship</label>
+                            <input type="text" id="otherRelationship" name="otherRelationship" placeholder="e.g., Grandfather, Uncle, Guardian">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeTutorModal()">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Tutor</button>
+                </div>
             </form>
         </div>
     </div>

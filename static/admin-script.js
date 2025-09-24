@@ -23,6 +23,46 @@ function checkAuthentication() {
         });
 }
 
+// Initialize modals
+function initializeModals() {
+    console.log('Initializing modals...');
+    
+    // Ensure all modals are hidden initially
+    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal'];
+    modals.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+            console.log(`Modal ${modalId} initialized`);
+        } else {
+            console.error(`Modal ${modalId} not found`);
+        }
+    });
+    
+    // Add click outside to close functionality
+    modals.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    const closeFunction = modalId.replace('Modal', 'Modal');
+                    if (closeFunction === 'studentModal') {
+                        closeStudentModal();
+                    } else if (closeFunction === 'assistantModal') {
+                        closeAssistantModal();
+                    } else if (closeFunction === 'teacherModal') {
+                        closeTeacherModal();
+                    } else if (closeFunction === 'studentDetailsModal') {
+                        closeStudentDetailsModal();
+                    } else if (closeFunction === 'tutorModal') {
+                        closeTutorModal();
+                    }
+                }
+            });
+        }
+    });
+}
+
 // Initialize dashboard with authentication
 document.addEventListener('DOMContentLoaded', function() {
     const currentUser = checkAuthentication();
@@ -39,6 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize contact section
     initializeContactSection();
+    
+    // Initialize modals
+    initializeModals();
     
     // Set default active section
     showSection('dashboard');
@@ -397,8 +440,15 @@ function getParentIcon(parentType) {
 
 // Assistant Modal Functions
 function openAssistantModal() {
-    document.getElementById('assistantModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
+    console.log('Opening assistant modal...');
+    const modal = document.getElementById('assistantModal');
+    if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        console.log('Assistant modal opened successfully');
+    } else {
+        console.error('Assistant modal not found');
+    }
 }
 
 function closeAssistantModal() {
@@ -421,8 +471,15 @@ function deleteAssistant(assistantId) {
 
 // Teacher Modal Functions
 function openTeacherModal(teacherId = null) {
-    document.getElementById('teacherModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
+    console.log('Opening teacher modal...');
+    const modal = document.getElementById('teacherModal');
+    if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        console.log('Teacher modal opened successfully');
+    } else {
+        console.error('Teacher modal not found');
+    }
     
     if (teacherId) {
         // Edit mode
@@ -1139,6 +1196,117 @@ function isValidPhone(phone) {
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     return phoneRegex.test(phone.replace(/\s/g, ''));
 }
+
+// Tutor Modal Functions
+function openTutorModal() {
+    console.log('openTutorModal function called');
+    console.log('Opening tutor modal...');
+    const modal = document.getElementById('tutorModal');
+    console.log('Modal element:', modal);
+    if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        console.log('Tutor modal opened successfully');
+    } else {
+        console.error('Tutor modal not found');
+    }
+}
+
+function closeTutorModal() {
+    document.getElementById('tutorModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    resetTutorForm();
+}
+
+function resetTutorForm() {
+    document.getElementById('tutorForm').reset();
+    document.getElementById('otherRelationshipField').style.display = 'none';
+    document.querySelectorAll('.relationship-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+}
+
+function selectRelationship(relationship) {
+    // Remove selected class from all buttons
+    document.querySelectorAll('.relationship-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked button
+    event.target.closest('.relationship-btn').classList.add('selected');
+    
+    // Show/hide other relationship field
+    const otherField = document.getElementById('otherRelationshipField');
+    if (relationship === 'other') {
+        otherField.style.display = 'block';
+    } else {
+        otherField.style.display = 'none';
+        document.getElementById('otherRelationship').value = '';
+    }
+}
+
+function addTutor() {
+    const tutorName = document.getElementById('tutorName').value;
+    const tutorPhone = document.getElementById('tutorPhone').value;
+    const tutorEmail = document.getElementById('tutorEmail').value;
+    const selectedRelationship = document.querySelector('.relationship-btn.selected');
+    
+    if (!tutorName.trim()) {
+        showNotification('Please enter tutor name', 'error');
+        return;
+    }
+    
+    if (!selectedRelationship) {
+        showNotification('Please select a relationship', 'error');
+        return;
+    }
+    
+    let relationship = selectedRelationship.onclick.toString().match(/'([^']+)'/)[1];
+    if (relationship === 'other') {
+        const otherRelationship = document.getElementById('otherRelationship').value;
+        if (!otherRelationship.trim()) {
+            showNotification('Please specify the relationship', 'error');
+            return;
+        }
+        relationship = otherRelationship;
+    }
+    
+    // TODO: Implement add tutor functionality
+    showNotification(`Tutor ${tutorName} (${relationship}) added successfully`, 'success');
+    
+    // Update status display
+    const statusDiv = document.getElementById('tutorStatus');
+    statusDiv.innerHTML = `
+        <div class="tutor-added">
+            <i class="fas fa-check-circle"></i>
+            <span>${tutorName} (${relationship})</span>
+            <button type="button" class="remove-tutor-btn" onclick="removeTutor()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    closeTutorModal();
+}
+
+
+function removeTutor() {
+    if (confirm('Are you sure you want to remove this tutor?')) {
+        document.getElementById('tutorStatus').innerHTML = '';
+        showNotification('Tutor removed successfully', 'success');
+    }
+}
+
+// Add tutor form handler
+document.addEventListener('DOMContentLoaded', function() {
+    const tutorForm = document.getElementById('tutorForm');
+    if (tutorForm) {
+        tutorForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            addTutor();
+        });
+    }
+});
 
 // Notification System
 function showNotification(message, type = 'info') {

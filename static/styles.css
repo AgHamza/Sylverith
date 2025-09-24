@@ -2087,6 +2087,312 @@ body {
     padding: 12px 24px;
 }
 
+/* Assistant Modal Styles */
+.assistant-modal-content {
+    max-width: 900px;
+}
+
+.assistant-modal-content .modal-body {
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: #ffffff;
+}
+
+.assistant-info-section {
+    flex: 1;
+    min-width: 0;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e1e5e9;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.assistant-info-section .form-row {
+    margin-bottom: 15px;
+}
+
+.assistant-info-section .form-group {
+    margin-bottom: 15px;
+}
+
+.assistant-info-section .form-row:last-child {
+    margin-bottom: 0;
+}
+
+.assistant-info-section .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.permissions-section {
+    flex: 1;
+    min-width: 0;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e1e5e9;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.permissions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.permission-item:hover {
+    background: #e9ecef;
+    border-color: #4A90E2;
+}
+
+.permission-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4A90E2;
+    cursor: pointer;
+}
+
+.permission-item label {
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.assistant-modal-content .modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+    border-radius: 0 0 20px 20px;
+    text-align: right;
+}
+
+.assistant-modal-content .modal-footer .submit-btn {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    min-width: 150px;
+}
+
+.assistant-modal-content .modal-footer .submit-btn:hover {
+    background: linear-gradient(135deg, #357ABD, #2E6BA8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+}
+
+/* Tutor Section Styles */
+.add-tutor-btn {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.add-tutor-btn:hover {
+    background: linear-gradient(135deg, #357ABD, #2E6BA8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+}
+
+.tutor-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e1e5e9;
+    margin-bottom: 20px;
+}
+
+.relationship-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.relationship-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.relationship-btn {
+    background: #ffffff;
+    border: 2px solid #e1e5e9;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+    justify-content: center;
+}
+
+.relationship-btn:hover {
+    border-color: #4A90E2;
+    background: #f8f9fa;
+}
+
+.relationship-btn.selected {
+    background: #4A90E2;
+    border-color: #4A90E2;
+    color: white;
+}
+
+.relationship-btn i {
+    font-size: 1.1rem;
+}
+
+.tutor-form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.tutor-added {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #c3e6cb;
+    margin-top: 15px;
+}
+
+.tutor-added i {
+    color: #28a745;
+}
+
+.remove-tutor-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.3s ease;
+}
+
+.remove-tutor-btn:hover {
+    background: #c82333;
+}
+
+/* Tutor Modal Styles */
+.tutor-modal-content {
+    max-width: 600px;
+}
+
+.tutor-modal-content .modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Clean tutor modal form layout */
+.tutor-modal-content .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tutor-modal-content .form-row .form-group {
+    flex: 1;
+}
+
+/* Email field on its own line */
+.tutor-modal-content .modal-body .form-group:not(.form-row .form-group) {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.tutor-modal-content .modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.tutor-modal-content .modal-footer .submit-btn {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tutor-modal-content .modal-footer .submit-btn:hover {
+    background: linear-gradient(135deg, #357ABD, #2E6BA8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+}
+
+.tutor-modal-content .modal-footer .btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tutor-modal-content .modal-footer .btn-secondary:hover {
+    background: #5a6268;
+}
+
 /* Contact Section Styles */
 .contact-container {
     display: grid;
@@ -2426,6 +2732,84 @@ body {
     
     .teacher-modal-content .modal-footer {
         padding: 15px 20px;
+    }
+    
+    /* Assistant Modal Responsive */
+    .assistant-modal-content {
+        max-width: 95%;
+        margin: 5% auto;
+    }
+    
+    .assistant-modal-content .modal-body {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        background: #ffffff;
+    }
+    
+    .assistant-info-section,
+    .permissions-section {
+        flex: none;
+        padding: 15px;
+        height: auto;
+    }
+    
+    .assistant-info-section .form-row {
+        margin-bottom: 12px;
+    }
+    
+    .assistant-info-section .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .assistant-modal-content .modal-footer {
+        padding: 15px 20px;
+        text-align: right;
+    }
+    
+    .assistant-modal-content .modal-footer .submit-btn {
+        display: inline-block;
+        min-width: 120px;
+    }
+    
+    /* Tutor Form Responsive */
+    .relationship-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .relationship-btn {
+        flex: none;
+    }
+    
+    .tutor-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .tutor-form-actions .btn {
+        width: 100%;
+    }
+    
+    /* Tutor Modal Responsive */
+    .tutor-modal-content {
+        max-width: 95%;
+        margin: 5% auto;
+    }
+    
+    .tutor-modal-content .modal-body {
+        padding: 20px;
+    }
+    
+    .tutor-modal-content .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .tutor-modal-content .modal-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 10px;
     }
     
     .grade-groups {
