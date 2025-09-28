@@ -1479,17 +1479,25 @@ body {
         text-align: center;
     }
     
+    /* Login Page Mobile - Hide left branding, show only form */
     .login-container {
         flex-direction: column;
     }
     
     .login-left {
-        padding: 40px 30px;
-        min-height: 40vh;
+        display: none; /* Hide the branding section on mobile */
     }
     
     .login-right {
-        padding: 30px 20px;
+        flex: 1;
+        padding: 40px 20px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .login-form-container {
+        max-width: 400px;
+        margin: 0 auto;
     }
 }
 
@@ -1506,16 +1514,13 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .login-left {
-        padding: 30px 20px;
+    /* Login left is already hidden at 768px, so no need to modify here */
+    .login-right {
+        padding: 30px 15px;
     }
     
-    .login-brand-name {
-        font-size: 2rem;
-    }
-    
-    .login-logo {
-        width: 80px;
+    .login-form-container {
+        max-width: 350px;
     }
 }
 
@@ -2737,6 +2742,7 @@ body {
     /* Assistant Modal Responsive */
     .assistant-modal-content {
         max-width: 95%;
+        width: 95%;
         margin: 5% auto;
     }
     
@@ -2745,31 +2751,39 @@ body {
         gap: 20px;
         padding: 20px;
         background: #ffffff;
+        width: 100%;
     }
     
     .assistant-info-section,
     .permissions-section {
-        flex: none;
+        flex: none !important;
+        min-width: auto !important;
         padding: 15px;
         height: auto;
+        width: 100% !important;
+        max-width: 100% !important;
     }
     
     .assistant-info-section .form-row {
         margin-bottom: 12px;
+        width: 100%;
     }
     
     .assistant-info-section .form-group {
         margin-bottom: 12px;
+        width: 100%;
     }
     
     .assistant-modal-content .modal-footer {
         padding: 15px 20px;
         text-align: right;
+        width: 100%;
     }
     
     .assistant-modal-content .modal-footer .submit-btn {
         display: inline-block;
         min-width: 120px;
+        width: auto;
     }
     
     /* Tutor Form Responsive */
@@ -3730,52 +3744,77 @@ body {
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
 }
 
+/* Admin Hamburger Menu */
+.admin-hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.admin-hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.admin-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.admin-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.admin-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
 /* Responsive Design for Admin */
 @media (max-width: 768px) {
     .admin-nav-container {
         padding: 0 15px;
+        position: relative;
     }
     
+    /* Mobile Navigation Layout: Logo center, hamburger left, user actions right */
     .admin-nav-brand {
-        flex: 0.5;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
     }
     
     .admin-nav-center {
-        flex: 1.5;
-    }
-    
-    .admin-nav-title {
-        font-size: 1.3rem;
-        letter-spacing: 0.2px;
-    }
-    
-    .admin-nav-content {
-        padding: 8px 15px;
-    }
-    
-    .admin-nav-title {
-        min-width: 240px;
-        font-size: 1.3rem;
-    }
-    
-    .admin-nav-subtitle {
-        font-size: 0.75rem;
-        gap: 8px;
-        min-width: 240px;
+        display: none; /* Hide center content on mobile */
     }
     
     .admin-nav-actions {
-        flex: 0.5;
-        gap: 10px;
+        position: absolute;
+        right: 15px;
+        gap: 8px;
+        z-index: 1000;
     }
     
-    .admin-user-info {
-        padding: 6px 12px;
-        gap: 6px;
+    .admin-hamburger {
+        display: flex;
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
     }
     
     .admin-user-info span {
-        font-size: 0.8rem;
+        display: none; /* Hide username text on mobile */
+    }
+    
+    .admin-user-info {
+        padding: 6px 8px;
+        gap: 4px;
     }
     
     .admin-logout-btn {
@@ -3783,40 +3822,82 @@ body {
         height: 35px;
     }
     
+    /* Mobile Sidebar */
     .admin-layout {
         flex-direction: column;
     }
     
     .admin-sidebar {
-        width: 100%;
-        padding: 10px 0;
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 280px;
+        height: calc(100vh - 80px);
+        background: #f8f9fa;
+        border-right: 1px solid #e1e5e9;
+        padding: 20px 0;
+        transition: left 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+    }
+    
+    .admin-sidebar.mobile-open {
+        left: 0;
     }
     
     .sidebar-menu {
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 0 20px;
+        flex-direction: column;
+        padding: 0;
     }
     
     .sidebar-item {
         white-space: nowrap;
-        min-width: 120px;
-        justify-content: center;
-        border-left: none;
-        border-bottom: 3px solid transparent;
+        min-width: auto;
+        justify-content: flex-start;
+        border-left: 3px solid transparent;
+        border-bottom: none;
+        padding: 15px 25px;
     }
     
     .sidebar-item.active {
-        border-left: none;
-        border-bottom-color: #4A90E2;
+        border-left-color: #4A90E2;
+        border-bottom: none;
     }
     
     .admin-main {
         padding: 20px;
+        margin-left: 0;
     }
     
+    /* KPI Cards - 2x2 Grid */
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .stat-card {
+        padding: 20px 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+    }
+    
+    .stat-content h3 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-content p {
+        font-size: 0.9rem;
+    }
+    
+    .stat-change {
+        font-size: 0.8rem;
     }
     
     .dashboard-grid {
@@ -3839,6 +3920,12 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
+        padding-top: 7px; /* Add top padding for mobile */
+    }
+    
+    .section-header h1 {
+        font-size: 1.6rem; /* Smaller font size on mobile */
+        line-height: 1.3;
     }
 }
 

@@ -339,6 +339,31 @@ function showSection(sectionName) {
     if (clickedItem) {
         clickedItem.classList.add('active');
     }
+    
+    // Close mobile menu if open
+    closeAdminMenu();
+}
+
+// Toggle admin mobile menu
+function toggleAdminMenu() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const hamburger = document.querySelector('.admin-hamburger');
+    
+    if (sidebar && hamburger) {
+        sidebar.classList.toggle('mobile-open');
+        hamburger.classList.toggle('active');
+    }
+}
+
+// Close admin mobile menu
+function closeAdminMenu() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const hamburger = document.querySelector('.admin-hamburger');
+    
+    if (sidebar && hamburger) {
+        sidebar.classList.remove('mobile-open');
+        hamburger.classList.remove('active');
+    }
 }
 
 // Student Modal Functions
@@ -1387,6 +1412,16 @@ window.addEventListener('click', function(event) {
             document.body.style.overflow = 'auto';
         }
     });
+    
+    // Close admin mobile menu when clicking outside
+    const sidebar = document.querySelector('.admin-sidebar');
+    const hamburger = document.querySelector('.admin-hamburger');
+    
+    if (sidebar && hamburger && sidebar.classList.contains('mobile-open')) {
+        if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
+            closeAdminMenu();
+        }
+    }
 });
 
 // Keyboard shortcuts
