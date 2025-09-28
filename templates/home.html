@@ -21,6 +21,10 @@
                 <a href="#services" class="nav-link">Services</a>
                 <a href="#plans" class="nav-link">Plans</a>
                 <a href="#contact" class="nav-link">Contact</a>
+                <div class="nav-menu-actions">
+                    <button class="demo-btn" onclick="requestDemo()">Request Demo</button>
+                    <a href="{{ url_for('login') }}" class="login-btn-nav">Login</a>
+                </div>
             </div>
             
             <div class="nav-actions">
@@ -111,84 +115,60 @@
                     <div class="service-icon">
                         <i class="fas fa-user-graduate"></i>
                     </div>
-                    <h3>Student Management</h3>
-                    <p>Complete student profiles, enrollment tracking, and academic records management with real-time updates.</p>
-                    <ul class="service-features">
-                        <li>Student enrollment & registration</li>
-                        <li>Academic records & transcripts</li>
-                        <li>Attendance tracking</li>
-                        <li>Class assignments</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Student Management</h3>
+                        <p>Complete student profiles, enrollment tracking, and academic records management with real-time updates.</p>
+                    </div>
                 </div>
                 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                    <h3>Teacher Portal</h3>
-                    <p>Empower educators with tools for lesson planning, grade management, and student communication.</p>
-                    <ul class="service-features">
-                        <li>Gradebook & assessment tools</li>
-                        <li>Lesson planning & resources</li>
-                        <li>Parent communication</li>
-                        <li>Performance analytics</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Teacher Portal</h3>
+                        <p>Empower educators with tools for lesson planning, grade management, and student communication.</p>
+                    </div>
                 </div>
                 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-home"></i>
                     </div>
-                    <h3>Parent Portal</h3>
-                    <p>Keep parents informed and engaged with real-time access to their child's academic progress.</p>
-                    <ul class="service-features">
-                        <li>Real-time grade access</li>
-                        <li>Teacher communication</li>
-                        <li>Attendance notifications</li>
-                        <li>Event & calendar updates</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Parent Portal</h3>
+                        <p>Keep parents informed and engaged with real-time access to their child's academic progress.</p>
+                    </div>
                 </div>
                 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-chart-bar"></i>
                     </div>
-                    <h3>Analytics & Reports</h3>
-                    <p>Make data-driven decisions with comprehensive analytics and customizable reporting tools.</p>
-                    <ul class="service-features">
-                        <li>Academic performance insights</li>
-                        <li>Attendance analytics</li>
-                        <li>Custom report generation</li>
-                        <li>Trend analysis</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Analytics & Reports</h3>
+                        <p>Make data-driven decisions with comprehensive analytics and customizable reporting tools.</p>
+                    </div>
                 </div>
                 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <h3>Event Management</h3>
-                    <p>Streamline school events, parent-teacher conferences, and academic calendar management.</p>
-                    <ul class="service-features">
-                        <li>Event scheduling & planning</li>
-                        <li>Parent-teacher conferences</li>
-                        <li>Academic calendar</li>
-                        <li>Notification system</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Event Management</h3>
+                        <p>Streamline school events, parent-teacher conferences, and academic calendar management.</p>
+                    </div>
                 </div>
                 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Security & Compliance</h3>
-                    <p>Enterprise-grade security with FERPA compliance and data protection for peace of mind.</p>
-                    <ul class="service-features">
-                        <li>FERPA compliant</li>
-                        <li>Data encryption</li>
-                        <li>Role-based access</li>
-                        <li>Audit trails</li>
-                    </ul>
+                    <div class="service-content">
+                        <h3>Security & Compliance</h3>
+                        <p>Enterprise-grade security with FERPA compliance and data protection for peace of mind.</p>
+                    </div>
                 </div>
             </div>
         </div>
