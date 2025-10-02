@@ -28,7 +28,7 @@ function initializeModals() {
     console.log('Initializing modals...');
     
     // Ensure all modals are hidden initially
-    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal', 'classModal', 'addClassModal', 'addGradeModal'];
+    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal', 'classModal', 'addClassModal', 'addGradeModal', 'addNewSubjectModal'];
     modals.forEach(modalId => {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -58,11 +58,27 @@ function initializeModals() {
                         closeTutorModal();
                     } else if (closeFunction === 'classModal') {
                         closeClassModal();
+                    } else if (closeFunction === 'addClassModal') {
+                        closeAddClassModal();
+                    } else if (closeFunction === 'addGradeModal') {
+                        closeAddGradeModal();
+                    } else if (closeFunction === 'addNewSubjectModal') {
+                        closeAddNewSubjectModal();
                     }
                 }
             });
         }
     });
+    
+    // Add click outside to close for subject popup
+    const subjectPopup = document.getElementById('addSubjectPopup');
+    if (subjectPopup) {
+        subjectPopup.addEventListener('click', function(e) {
+            if (e.target === subjectPopup) {
+                closeAddSubjectPopup();
+            }
+        });
+    }
 }
 
 // Initialize dashboard with authentication
@@ -1694,6 +1710,11 @@ const classesData = {
         currentTeachers: [
             { name: "Ms. Sarah Johnson", subject: "General Studies", id: "T001" },
             { name: "Ms. Emily Brown", subject: "Art & Music", id: "T002" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH101", description: "Basic arithmetic and number sense", credits: 5, id: "S001" },
+            { name: "English", code: "ENG101", description: "Reading, writing, and communication", credits: 5, id: "S002" },
+            { name: "Science", code: "SCI101", description: "Introduction to natural sciences", credits: 3, id: "S003" }
         ]
     },
     grade1b: {
@@ -1704,6 +1725,11 @@ const classesData = {
         currentTeachers: [
             { name: "Mr. David Wilson", subject: "General Studies", id: "T003" },
             { name: "Ms. Emily Brown", subject: "Art & Music", id: "T002" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH101", description: "Basic arithmetic and number sense", credits: 5, id: "S001" },
+            { name: "English", code: "ENG101", description: "Reading, writing, and communication", credits: 5, id: "S002" },
+            { name: "Arabic", code: "ARA101", description: "Arabic language and literature", credits: 4, id: "S004" }
         ]
     },
     grade2a: {
@@ -1714,6 +1740,12 @@ const classesData = {
         currentTeachers: [
             { name: "Ms. Lisa Anderson", subject: "General Studies", id: "T004" },
             { name: "Ms. Jennifer Taylor", subject: "Physical Education", id: "T005" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH201", description: "Advanced arithmetic and problem solving", credits: 5, id: "S005" },
+            { name: "English", code: "ENG201", description: "Reading comprehension and writing", credits: 5, id: "S006" },
+            { name: "Science", code: "SCI201", description: "Life sciences and earth sciences", credits: 4, id: "S007" },
+            { name: "Physical Education", code: "PE201", description: "Physical activities and sports", credits: 2, id: "S008" }
         ]
     },
     grade2b: {
@@ -1724,6 +1756,11 @@ const classesData = {
         currentTeachers: [
             { name: "Mr. Michael Davis", subject: "General Studies", id: "T006" },
             { name: "Ms. Jennifer Taylor", subject: "Physical Education", id: "T005" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH201", description: "Advanced arithmetic and problem solving", credits: 5, id: "S005" },
+            { name: "English", code: "ENG201", description: "Reading comprehension and writing", credits: 5, id: "S006" },
+            { name: "Arabic", code: "ARA201", description: "Arabic language and literature", credits: 4, id: "S009" }
         ]
     },
     grade3a: {
@@ -1734,6 +1771,12 @@ const classesData = {
         currentTeachers: [
             { name: "Ms. Amanda White", subject: "General Studies", id: "T007" },
             { name: "Ms. Maria Rodriguez", subject: "Science", id: "T008" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH301", description: "Multiplication, division, and fractions", credits: 5, id: "S010" },
+            { name: "English", code: "ENG301", description: "Grammar and creative writing", credits: 5, id: "S011" },
+            { name: "Science", code: "SCI301", description: "Physical sciences and experiments", credits: 4, id: "S012" },
+            { name: "Social Studies", code: "SOC301", description: "Community and geography", credits: 3, id: "S013" }
         ]
     },
     grade3b: {
@@ -1744,6 +1787,11 @@ const classesData = {
         currentTeachers: [
             { name: "Mr. Robert Garcia", subject: "General Studies", id: "T009" },
             { name: "Ms. Maria Rodriguez", subject: "Science", id: "T008" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH301", description: "Multiplication, division, and fractions", credits: 5, id: "S010" },
+            { name: "English", code: "ENG301", description: "Grammar and creative writing", credits: 5, id: "S011" },
+            { name: "Arabic", code: "ARA301", description: "Arabic language and culture", credits: 4, id: "S014" }
         ]
     },
     grade4a: {
@@ -1754,6 +1802,12 @@ const classesData = {
         currentTeachers: [
             { name: "Ms. Jessica Lee", subject: "General Studies", id: "T010" },
             { name: "Ms. Rachel Green", subject: "Mathematics", id: "T011" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH401", description: "Advanced arithmetic and geometry", credits: 5, id: "S015" },
+            { name: "English", code: "ENG401", description: "Reading comprehension and essay writing", credits: 5, id: "S016" },
+            { name: "Science", code: "SCI401", description: "Earth sciences and biology", credits: 4, id: "S017" },
+            { name: "History", code: "HIS401", description: "World history and civilizations", credits: 3, id: "S018" }
         ]
     },
     grade4b: {
@@ -1764,6 +1818,11 @@ const classesData = {
         currentTeachers: [
             { name: "Mr. Christopher Kim", subject: "General Studies", id: "T012" },
             { name: "Ms. Rachel Green", subject: "Mathematics", id: "T011" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH401", description: "Advanced arithmetic and geometry", credits: 5, id: "S015" },
+            { name: "English", code: "ENG401", description: "Reading comprehension and essay writing", credits: 5, id: "S016" },
+            { name: "Arabic", code: "ARA401", description: "Advanced Arabic language", credits: 4, id: "S019" }
         ]
     },
     grade5a: {
@@ -1774,6 +1833,12 @@ const classesData = {
         currentTeachers: [
             { name: "Ms. Nicole Adams", subject: "General Studies", id: "T013" },
             { name: "Ms. Samantha Clark", subject: "English Literature", id: "T014" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH501", description: "Algebra and advanced geometry", credits: 5, id: "S020" },
+            { name: "English Literature", code: "ENG501", description: "Classic literature and poetry", credits: 5, id: "S021" },
+            { name: "Science", code: "SCI501", description: "Chemistry and physics basics", credits: 4, id: "S022" },
+            { name: "Geography", code: "GEO501", description: "World geography and cultures", credits: 3, id: "S023" }
         ]
     },
     grade5b: {
@@ -1784,6 +1849,11 @@ const classesData = {
         currentTeachers: [
             { name: "Mr. Kevin Martinez", subject: "General Studies", id: "T015" },
             { name: "Ms. Samantha Clark", subject: "English Literature", id: "T014" }
+        ],
+        subjects: [
+            { name: "Mathematics", code: "MATH501", description: "Algebra and advanced geometry", credits: 5, id: "S020" },
+            { name: "English Literature", code: "ENG501", description: "Classic literature and poetry", credits: 5, id: "S021" },
+            { name: "Arabic", code: "ARA501", description: "Advanced Arabic literature", credits: 4, id: "S024" }
         ]
     }
 };
@@ -1806,6 +1876,29 @@ const availableTeachers = [
     { id: "T014", name: "Ms. Samantha Clark", subject: "English Literature" },
     { id: "T015", name: "Mr. Kevin Martinez", subject: "General Studies" },
     { id: "T016", name: "Mr. James Wilson", subject: "Arabic" },
+];
+
+// Available subjects for assignment
+const availableSubjects = [
+    { id: "SUB001", name: "Mathematics", code: "MATH", description: "Mathematical concepts and problem solving", credits: 5 },
+    { id: "SUB002", name: "English", code: "ENG", description: "English language and literature", credits: 5 },
+    { id: "SUB003", name: "Science", code: "SCI", description: "Natural sciences and experiments", credits: 4 },
+    { id: "SUB004", name: "Arabic", code: "ARA", description: "Arabic language and literature", credits: 4 },
+    { id: "SUB005", name: "History", code: "HIS", description: "World history and civilizations", credits: 3 },
+    { id: "SUB006", name: "Geography", code: "GEO", description: "World geography and cultures", credits: 3 },
+    { id: "SUB007", name: "Physical Education", code: "PE", description: "Physical activities and sports", credits: 2 },
+    { id: "SUB008", name: "Art", code: "ART", description: "Visual arts and creativity", credits: 2 },
+    { id: "SUB009", name: "Music", code: "MUS", description: "Musical instruments and theory", credits: 2 },
+    { id: "SUB010", name: "Social Studies", code: "SOC", description: "Community and social sciences", credits: 3 },
+    { id: "SUB011", name: "Computer Science", code: "CS", description: "Programming and technology", credits: 4 },
+    { id: "SUB012", name: "French", code: "FRE", description: "French language and culture", credits: 3 },
+    { id: "SUB013", name: "Chemistry", code: "CHEM", description: "Chemical reactions and compounds", credits: 4 },
+    { id: "SUB014", name: "Physics", code: "PHY", description: "Physical laws and phenomena", credits: 4 },
+    { id: "SUB015", name: "Biology", code: "BIO", description: "Living organisms and life processes", credits: 4 }
+];
+
+// Additional available teachers
+const additionalTeachers = [
     { id: "T017", name: "Ms. Anna Smith", subject: "History" },
     { id: "T018", name: "Mr. Tom Brown", subject: "Geography" }
 ];
@@ -1836,6 +1929,9 @@ function openClassModal(classId) {
 
     // Update teacher selection dropdown
     updateTeacherSelectionDropdown(classData.currentTeachers);
+
+    // Update current subjects
+    updateCurrentSubjectsDisplay(classData.subjects || []);
 
     // Show modal
     document.getElementById('classModal').style.display = 'block';
@@ -1943,6 +2039,216 @@ function removeTeacherFromClass(teacherId) {
     updateTeacherSelectionDropdown(classData.currentTeachers);
     
     showNotification(`${teacher.name} removed from ${classData.name}`, 'success');
+}
+
+// Update current subjects display
+function updateCurrentSubjectsDisplay(subjects) {
+    const container = document.getElementById('currentSubjectsContainer');
+    if (!container) return;
+
+    if (!subjects || subjects.length === 0) {
+        container.innerHTML = '<div class="no-subjects">No subjects assigned to this class yet.</div>';
+        return;
+    }
+
+    container.innerHTML = subjects.map(subject => `
+        <div class="subject-item">
+            <div class="subject-info">
+                <div class="subject-name">${subject.name}</div>
+                <div class="subject-details">
+                    <span class="subject-code">${subject.code}</span>
+                    <span class="subject-credits">${subject.credits} hrs/week</span>
+                </div>
+                <div class="subject-description">${subject.description}</div>
+            </div>
+            <div class="subject-actions">
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeSubjectFromClass('${subject.id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Remove subject from class
+function removeSubjectFromClass(subjectId) {
+    const classData = classesData[currentClassId];
+    if (!classData.subjects) return;
+    
+    const subjectIndex = classData.subjects.findIndex(s => s.id === subjectId);
+    
+    if (subjectIndex === -1) {
+        showNotification('Subject not found in class', 'error');
+        return;
+    }
+    
+    const subject = classData.subjects[subjectIndex];
+    classData.subjects.splice(subjectIndex, 1);
+    
+    // Update display
+    updateCurrentSubjectsDisplay(classData.subjects);
+    
+    showNotification(`${subject.name} removed from ${classData.name}`, 'success');
+}
+
+// Open Add Subject Popup
+function openAddSubjectModal() {
+    const classData = classesData[currentClassId];
+    if (!classData) {
+        showNotification('Class not found', 'error');
+        return;
+    }
+    
+    // Get currently assigned subject IDs
+    const assignedSubjectIds = (classData.subjects || []).map(s => s.id);
+    
+    // Filter available subjects (exclude already assigned ones)
+    const availableSubjectsForClass = availableSubjects.filter(subject => 
+        !assignedSubjectIds.includes(subject.id)
+    );
+    
+    // Populate available subjects grid
+    const grid = document.getElementById('availableSubjectsGrid');
+    if (availableSubjectsForClass.length === 0) {
+        grid.innerHTML = `
+            <div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px; grid-column: 1 / -1;">All available subjects are already assigned to this class.</div>
+            <div class="add-new-subject-card" onclick="openAddNewSubjectModal()">
+                <div class="add-subject-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="add-subject-text">Add New Subject</div>
+            </div>
+        `;
+    } else {
+        grid.innerHTML = availableSubjectsForClass.map(subject => `
+            <div class="available-subject-card" onclick="selectSubject('${subject.id}')">
+                <div class="available-subject-name">${subject.name}</div>
+                <div class="available-subject-code">${subject.code}</div>
+            </div>
+        `).join('') + `
+            <div class="add-new-subject-card" onclick="openAddNewSubjectModal()">
+                <div class="add-subject-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="add-subject-text">Add New Subject</div>
+            </div>
+        `;
+    }
+    
+    // Show popup
+    document.getElementById('addSubjectPopup').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Add Subject Popup
+function closeAddSubjectPopup() {
+    document.getElementById('addSubjectPopup').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Select Subject from Available List
+function selectSubject(subjectId) {
+    const subject = availableSubjects.find(s => s.id === subjectId);
+    if (!subject) {
+        showNotification('Subject not found', 'error');
+        return;
+    }
+    
+    const classData = classesData[currentClassId];
+    if (!classData) {
+        showNotification('Class not found', 'error');
+        return;
+    }
+    
+    // Initialize subjects array if it doesn't exist
+    if (!classData.subjects) {
+        classData.subjects = [];
+    }
+    
+    // Add subject to class
+    classData.subjects.push({
+        id: subject.id,
+        name: subject.name,
+        code: subject.code,
+        description: subject.description,
+        credits: subject.credits
+    });
+    
+    // Update display
+    updateCurrentSubjectsDisplay(classData.subjects);
+    
+    // Close popup
+    closeAddSubjectPopup();
+    
+    showNotification(`${subject.name} added to ${classData.name}`, 'success');
+}
+
+// Open Add New Subject Modal (for creating completely new subjects)
+function openAddNewSubjectModal() {
+    closeAddSubjectPopup(); // Close the popup first
+    document.getElementById('addNewSubjectModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Add New Subject Modal
+function closeAddNewSubjectModal() {
+    document.getElementById('addNewSubjectModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Reset form
+    document.getElementById('addNewSubjectForm').reset();
+}
+
+// Save New Subject (for completely new subjects)
+function saveNewSubject() {
+    const form = document.getElementById('addNewSubjectForm');
+    const formData = new FormData(form);
+    
+    const subjectName = formData.get('newSubjectName');
+    const subjectCode = formData.get('newSubjectCode');
+    const subjectDescription = formData.get('newSubjectDescription');
+    const subjectCredits = formData.get('newSubjectCredits');
+    
+    if (!subjectName || !subjectCode || !subjectCredits) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    const classData = classesData[currentClassId];
+    if (!classData) {
+        showNotification('Class not found', 'error');
+        return;
+    }
+    
+    // Initialize subjects array if it doesn't exist
+    if (!classData.subjects) {
+        classData.subjects = [];
+    }
+    
+    // Generate unique ID
+    const subjectId = 'SUB' + String(Date.now()).slice(-6);
+    
+    // Add new subject to available subjects list
+    const newSubject = {
+        id: subjectId,
+        name: subjectName,
+        code: subjectCode,
+        description: subjectDescription || '',
+        credits: parseInt(subjectCredits)
+    };
+    
+    availableSubjects.push(newSubject);
+    
+    // Add to class
+    classData.subjects.push(newSubject);
+    
+    // Update display
+    updateCurrentSubjectsDisplay(classData.subjects);
+    
+    // Close modal and reset form
+    closeAddNewSubjectModal();
+    
+    showNotification(`${subjectName} created and added to ${classData.name}`, 'success');
 }
 
 // Close class modal

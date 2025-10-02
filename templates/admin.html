@@ -52,41 +52,41 @@
     <div class="admin-layout">
         <aside class="admin-sidebar">
             <div class="sidebar-menu">
-                <a href="#dashboard" class="sidebar-item active" onclick="showSection('dashboard')">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                <a href="#dashboard" class="sidebar-item active" data-tooltip="Dashboard" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                    <span class="sidebar-text">Dashboard</span>
                 </a>
-                <a href="#students" class="sidebar-item" onclick="showSection('students')">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Students</span>
+                <a href="#students" class="sidebar-item" data-tooltip="Students" onclick="showSection('students')">
+                    <i class="fas fa-user-graduate sidebar-icon"></i>
+                    <span class="sidebar-text">Students</span>
                 </a>
-                <a href="#teachers" class="sidebar-item" onclick="showSection('teachers')">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>Teachers</span>
+                <a href="#teachers" class="sidebar-item" data-tooltip="Teachers" onclick="showSection('teachers')">
+                    <i class="fas fa-chalkboard-teacher sidebar-icon"></i>
+                    <span class="sidebar-text">Teachers</span>
                 </a>
-                <a href="#assistants" class="sidebar-item" onclick="showSection('assistants')">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Assistants</span>
+                <a href="#assistants" class="sidebar-item" data-tooltip="Assistants" onclick="showSection('assistants')">
+                    <i class="fas fa-user-shield sidebar-icon"></i>
+                    <span class="sidebar-text">Assistants</span>
                 </a>
-                <a href="#marks" class="sidebar-item" onclick="showSection('marks')">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Marks</span>
+                <a href="#marks" class="sidebar-item" data-tooltip="Marks" onclick="showSection('marks')">
+                    <i class="fas fa-graduation-cap sidebar-icon"></i>
+                    <span class="sidebar-text">Marks</span>
                 </a>
-                <a href="#levels" class="sidebar-item" onclick="showSection('levels')">
-                    <i class="fas fa-layer-group"></i>
-                    <span>Levels</span>
+                <a href="#levels" class="sidebar-item" data-tooltip="Levels" onclick="showSection('levels')">
+                    <i class="fas fa-layer-group sidebar-icon"></i>
+                    <span class="sidebar-text">Levels</span>
                 </a>
-                <a href="#contact" class="sidebar-item" onclick="showSection('contact')">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact</span>
+                <a href="#contact" class="sidebar-item" data-tooltip="Contact" onclick="showSection('contact')">
+                    <i class="fas fa-envelope sidebar-icon"></i>
+                    <span class="sidebar-text">Contact</span>
                 </a>
-                <a href="#reports" class="sidebar-item" onclick="showSection('reports')">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reports</span>
+                <a href="#reports" class="sidebar-item" data-tooltip="Reports" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar sidebar-icon"></i>
+                    <span class="sidebar-text">Reports</span>
                 </a>
-                <a href="#settings" class="sidebar-item" onclick="showSection('settings')">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
+                <a href="#settings" class="sidebar-item" data-tooltip="Settings" onclick="showSection('settings')">
+                    <i class="fas fa-cog sidebar-icon"></i>
+                    <span class="sidebar-text">Settings</span>
                 </a>
             </div>
         </aside>
@@ -1402,6 +1402,19 @@
                     </div>
                 </div>
 
+                <!-- Current Subjects Section -->
+                <div class="current-subjects-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-book"></i> Current Subjects</h3>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="openAddSubjectModal()">
+                            <i class="fas fa-plus"></i> Add Subject
+                        </button>
+                    </div>
+                    <div id="currentSubjectsContainer">
+                        <!-- Current subjects will be populated by JavaScript -->
+                    </div>
+                </div>
+
                 <!-- Assign Teacher Section -->
                 <div class="assign-teacher-section">
                     <h3><i class="fas fa-user-plus"></i> Assign Teacher</h3>
@@ -1524,6 +1537,57 @@
                 <button type="button" class="btn btn-secondary" onclick="closeAddGradeModal()">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="saveNewGrade()">
                     <i class="fas fa-plus"></i> Add Grade
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Subject Popup -->
+    <div id="addSubjectPopup" class="subject-popup">
+        <div class="subject-popup-content">
+            <div class="subject-popup-header">
+                <h3>Select Subject</h3>
+                <span class="close" onclick="closeAddSubjectPopup()">&times;</span>
+            </div>
+            <div class="subject-popup-body">
+                <div class="available-subjects-grid" id="availableSubjectsGrid">
+                    <!-- Available subjects will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Subject Modal (for creating completely new subjects) -->
+    <div id="addNewSubjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Subject</h2>
+                <span class="close" onclick="closeAddNewSubjectModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addNewSubjectForm">
+                    <div class="form-group">
+                        <label for="newSubjectName">Subject Name:</label>
+                        <input type="text" id="newSubjectName" name="newSubjectName" placeholder="e.g., Advanced Mathematics" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newSubjectCode">Subject Code:</label>
+                        <input type="text" id="newSubjectCode" name="newSubjectCode" placeholder="e.g., MATH301" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newSubjectDescription">Description:</label>
+                        <textarea id="newSubjectDescription" name="newSubjectDescription" placeholder="Brief description of the subject..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="newSubjectCredits">Credits/Hours per Week:</label>
+                        <input type="number" id="newSubjectCredits" name="newSubjectCredits" placeholder="e.g., 5" min="1" max="20" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAddNewSubjectModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveNewSubject()">
+                    <i class="fas fa-plus"></i> Create Subject
                 </button>
             </div>
         </div>
