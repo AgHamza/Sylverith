@@ -492,7 +492,10 @@
                                 <p>Elementary Level - Ages 6-7</p>
                             </div>
                             <div class="level-stats">
-                                <span class="class-count">2 Classes</span>
+                                <div class="level-stats-row">
+                                    <span class="subject-count" onclick="openGradeSubjectsModal('grade1')">7 Subjects</span>
+                                    <span class="class-count">2 Classes</span>
+                                </div>
                                 <span class="student-count">48 Students</span>
                             </div>
                         </div>
@@ -528,7 +531,10 @@
                                 <p>Elementary Level - Ages 7-8</p>
                             </div>
                             <div class="level-stats">
-                                <span class="class-count">2 Classes</span>
+                                <div class="level-stats-row">
+                                    <span class="subject-count" onclick="openGradeSubjectsModal('grade2')">8 Subjects</span>
+                                    <span class="class-count">2 Classes</span>
+                                </div>
                                 <span class="student-count">46 Students</span>
                             </div>
                         </div>
@@ -564,7 +570,10 @@
                                 <p>Elementary Level - Ages 8-9</p>
                             </div>
                             <div class="level-stats">
-                                <span class="class-count">2 Classes</span>
+                                <div class="level-stats-row">
+                                    <span class="subject-count" onclick="openGradeSubjectsModal('grade3')">9 Subjects</span>
+                                    <span class="class-count">2 Classes</span>
+                                </div>
                                 <span class="student-count">44 Students</span>
                             </div>
                         </div>
@@ -600,7 +609,10 @@
                                 <p>Intermediate Level - Ages 9-10</p>
                             </div>
                             <div class="level-stats">
-                                <span class="class-count">2 Classes</span>
+                                <div class="level-stats-row">
+                                    <span class="subject-count" onclick="openGradeSubjectsModal('grade4')">10 Subjects</span>
+                                    <span class="class-count">2 Classes</span>
+                                </div>
                                 <span class="student-count">42 Students</span>
                             </div>
                         </div>
@@ -636,7 +648,10 @@
                                 <p>Intermediate Level - Ages 10-11</p>
                             </div>
                             <div class="level-stats">
-                                <span class="class-count">2 Classes</span>
+                                <div class="level-stats-row">
+                                    <span class="subject-count" onclick="openGradeSubjectsModal('grade5')">11 Subjects</span>
+                                    <span class="class-count">2 Classes</span>
+                                </div>
                                 <span class="student-count">40 Students</span>
                             </div>
                         </div>
@@ -1402,18 +1417,6 @@
                     </div>
                 </div>
 
-                <!-- Current Subjects Section -->
-                <div class="current-subjects-section">
-                    <div class="section-header">
-                        <h3><i class="fas fa-book"></i> Current Subjects</h3>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="openAddSubjectModal()">
-                            <i class="fas fa-plus"></i> Add Subject
-                        </button>
-                    </div>
-                    <div id="currentSubjectsContainer">
-                        <!-- Current subjects will be populated by JavaScript -->
-                    </div>
-                </div>
 
                 <!-- Assign Teacher Section -->
                 <div class="assign-teacher-section">
@@ -1589,6 +1592,35 @@
                 <button type="button" class="btn btn-primary" onclick="saveNewSubject()">
                     <i class="fas fa-plus"></i> Create Subject
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Subjects Modal -->
+    <div id="gradeSubjectsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="gradeSubjectsModalTitle">Grade Subjects</h2>
+                <div class="modal-header-actions">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openSubjectSelectionFromGrade()">
+                        <i class="fas fa-plus"></i> Add Subject
+                    </button>
+                    <span class="close" onclick="closeGradeSubjectsModal()">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="grade-subjects-content">
+                    <div class="current-grade-subjects">
+                        <h3><i class="fas fa-book"></i> Current Subjects</h3>
+                        <div id="currentGradeSubjectsContainer">
+                            <!-- Current grade subjects will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeGradeSubjectsModal()">Close</button>
             </div>
         </div>
     </div>

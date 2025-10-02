@@ -28,7 +28,7 @@ function initializeModals() {
     console.log('Initializing modals...');
     
     // Ensure all modals are hidden initially
-    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal', 'classModal', 'addClassModal', 'addGradeModal', 'addNewSubjectModal'];
+    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal', 'classModal', 'addClassModal', 'addGradeModal', 'addNewSubjectModal', 'gradeSubjectsModal'];
     modals.forEach(modalId => {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -64,6 +64,8 @@ function initializeModals() {
                         closeAddGradeModal();
                     } else if (closeFunction === 'addNewSubjectModal') {
                         closeAddNewSubjectModal();
+                    } else if (closeFunction === 'gradeSubjectsModal') {
+                        closeGradeSubjectsModal();
                     }
                 }
             });
@@ -1906,6 +1908,68 @@ const additionalTeachers = [
 // Global variable to store current class ID
 let currentClassId = null;
 
+// Global variable to store current grade ID
+let currentGradeId = null;
+
+// Grade-level subjects data
+const gradeSubjectsData = {
+    grade1: [
+        { id: "SUB001", name: "Mathematics", code: "MATH", description: "Basic arithmetic and number sense", credits: 5 },
+        { id: "SUB002", name: "English", code: "ENG", description: "Reading, writing, and communication", credits: 5 },
+        { id: "SUB003", name: "Science", code: "SCI", description: "Introduction to natural sciences", credits: 3 },
+        { id: "SUB004", name: "Arabic", code: "ARA", description: "Arabic language and literature", credits: 4 },
+        { id: "SUB007", name: "Physical Education", code: "PE", description: "Physical activities and sports", credits: 2 },
+        { id: "SUB008", name: "Art", code: "ART", description: "Visual arts and creativity", credits: 2 },
+        { id: "SUB009", name: "Music", code: "MUS", description: "Musical instruments and theory", credits: 2 }
+    ],
+    grade2: [
+        { id: "SUB001", name: "Mathematics", code: "MATH", description: "Advanced arithmetic and problem solving", credits: 5 },
+        { id: "SUB002", name: "English", code: "ENG", description: "Reading comprehension and writing", credits: 5 },
+        { id: "SUB003", name: "Science", code: "SCI", description: "Life sciences and earth sciences", credits: 4 },
+        { id: "SUB004", name: "Arabic", code: "ARA", description: "Arabic language and literature", credits: 4 },
+        { id: "SUB005", name: "History", code: "HIS", description: "World history and civilizations", credits: 3 },
+        { id: "SUB007", name: "Physical Education", code: "PE", description: "Physical activities and sports", credits: 2 },
+        { id: "SUB008", name: "Art", code: "ART", description: "Visual arts and creativity", credits: 2 },
+        { id: "SUB009", name: "Music", code: "MUS", description: "Musical instruments and theory", credits: 2 }
+    ],
+    grade3: [
+        { id: "SUB001", name: "Mathematics", code: "MATH", description: "Multiplication, division, and fractions", credits: 5 },
+        { id: "SUB002", name: "English", code: "ENG", description: "Grammar and creative writing", credits: 5 },
+        { id: "SUB003", name: "Science", code: "SCI", description: "Physical sciences and experiments", credits: 4 },
+        { id: "SUB004", name: "Arabic", code: "ARA", description: "Arabic language and culture", credits: 4 },
+        { id: "SUB005", name: "History", code: "HIS", description: "World history and civilizations", credits: 3 },
+        { id: "SUB010", name: "Social Studies", code: "SOC", description: "Community and social sciences", credits: 3 },
+        { id: "SUB007", name: "Physical Education", code: "PE", description: "Physical activities and sports", credits: 2 },
+        { id: "SUB008", name: "Art", code: "ART", description: "Visual arts and creativity", credits: 2 },
+        { id: "SUB009", name: "Music", code: "MUS", description: "Musical instruments and theory", credits: 2 }
+    ],
+    grade4: [
+        { id: "SUB001", name: "Mathematics", code: "MATH", description: "Advanced arithmetic and geometry", credits: 5 },
+        { id: "SUB002", name: "English", code: "ENG", description: "Reading comprehension and essay writing", credits: 5 },
+        { id: "SUB003", name: "Science", code: "SCI", description: "Earth sciences and biology", credits: 4 },
+        { id: "SUB004", name: "Arabic", code: "ARA", description: "Advanced Arabic language", credits: 4 },
+        { id: "SUB005", name: "History", code: "HIS", description: "World history and civilizations", credits: 3 },
+        { id: "SUB006", name: "Geography", code: "GEO", description: "World geography and cultures", credits: 3 },
+        { id: "SUB010", name: "Social Studies", code: "SOC", description: "Community and social sciences", credits: 3 },
+        { id: "SUB011", name: "Computer Science", code: "CS", description: "Programming and technology", credits: 4 },
+        { id: "SUB007", name: "Physical Education", code: "PE", description: "Physical activities and sports", credits: 2 },
+        { id: "SUB008", name: "Art", code: "ART", description: "Visual arts and creativity", credits: 2 }
+    ],
+    grade5: [
+        { id: "SUB001", name: "Mathematics", code: "MATH", description: "Algebra and advanced geometry", credits: 5 },
+        { id: "SUB002", name: "English", code: "ENG", description: "Classic literature and poetry", credits: 5 },
+        { id: "SUB003", name: "Science", code: "SCI", description: "Chemistry and physics basics", credits: 4 },
+        { id: "SUB004", name: "Arabic", code: "ARA", description: "Advanced Arabic literature", credits: 4 },
+        { id: "SUB005", name: "History", code: "HIS", description: "World history and civilizations", credits: 3 },
+        { id: "SUB006", name: "Geography", code: "GEO", description: "World geography and cultures", credits: 3 },
+        { id: "SUB010", name: "Social Studies", code: "SOC", description: "Community and social sciences", credits: 3 },
+        { id: "SUB011", name: "Computer Science", code: "CS", description: "Programming and technology", credits: 4 },
+        { id: "SUB012", name: "French", code: "FRE", description: "French language and culture", credits: 3 },
+        { id: "SUB013", name: "Chemistry", code: "CHEM", description: "Chemical reactions and compounds", credits: 4 },
+        { id: "SUB014", name: "Physics", code: "PHY", description: "Physical laws and phenomena", credits: 4 }
+    ]
+};
+
 // Open class modal
 function openClassModal(classId) {
     const classData = classesData[classId];
@@ -1930,8 +1994,6 @@ function openClassModal(classId) {
     // Update teacher selection dropdown
     updateTeacherSelectionDropdown(classData.currentTeachers);
 
-    // Update current subjects
-    updateCurrentSubjectsDisplay(classData.subjects || []);
 
     // Show modal
     document.getElementById('classModal').style.display = 'block';
@@ -2249,6 +2311,170 @@ function saveNewSubject() {
     closeAddNewSubjectModal();
     
     showNotification(`${subjectName} created and added to ${classData.name}`, 'success');
+}
+
+// Open Grade Subjects Modal
+function openGradeSubjectsModal(gradeId) {
+    currentGradeId = gradeId;
+    
+    // Get grade name for modal title
+    const gradeName = gradeId.charAt(0).toUpperCase() + gradeId.slice(1).replace(/(\d)/, ' $1');
+    document.getElementById('gradeSubjectsModalTitle').textContent = `${gradeName} Subjects`;
+    
+    // Get current grade subjects
+    const currentSubjects = gradeSubjectsData[gradeId] || [];
+    
+    // Update current subjects display
+    updateCurrentGradeSubjectsDisplay(currentSubjects);
+    
+    
+    // Show modal
+    document.getElementById('gradeSubjectsModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Grade Subjects Modal
+function closeGradeSubjectsModal() {
+    document.getElementById('gradeSubjectsModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentGradeId = null;
+}
+
+// Open Subject Selection Popup from Grade Modal
+function openSubjectSelectionFromGrade() {
+    if (!currentGradeId) {
+        showNotification('Grade not found', 'error');
+        return;
+    }
+    
+    // Get currently assigned subject IDs
+    const currentSubjects = gradeSubjectsData[currentGradeId] || [];
+    const assignedSubjectIds = currentSubjects.map(s => s.id);
+    
+    // Filter available subjects (exclude already assigned ones)
+    const availableSubjectsForGrade = availableSubjects.filter(subject => 
+        !assignedSubjectIds.includes(subject.id)
+    );
+    
+    // Populate available subjects grid
+    const grid = document.getElementById('availableSubjectsGrid');
+    if (availableSubjectsForGrade.length === 0) {
+        grid.innerHTML = `
+            <div style="text-align: center; color: #6c757d; font-style: italic; padding: 20px; grid-column: 1 / -1;">All available subjects are already assigned to this grade.</div>
+            <div class="add-new-subject-card" onclick="openAddNewSubjectModal()">
+                <div class="add-subject-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="add-subject-text">Add New Subject</div>
+            </div>
+        `;
+    } else {
+        grid.innerHTML = availableSubjectsForGrade.map(subject => `
+            <div class="available-subject-card" onclick="addSubjectToGrade('${subject.id}')">
+                <div class="available-subject-name">${subject.name}</div>
+                <div class="available-subject-code">${subject.code}</div>
+            </div>
+        `).join('') + `
+            <div class="add-new-subject-card" onclick="openAddNewSubjectModal()">
+                <div class="add-subject-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="add-subject-text">Add New Subject</div>
+            </div>
+        `;
+    }
+    
+    // Show popup
+    document.getElementById('addSubjectPopup').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Update Current Grade Subjects Display
+function updateCurrentGradeSubjectsDisplay(subjects) {
+    const container = document.getElementById('currentGradeSubjectsContainer');
+    if (!container) return;
+
+    if (!subjects || subjects.length === 0) {
+        container.innerHTML = '<div class="no-grade-subjects">No subjects assigned to this grade yet.</div>';
+        return;
+    }
+
+    container.innerHTML = subjects.map(subject => `
+        <div class="grade-subject-item">
+            <div class="grade-subject-info">
+                <div class="grade-subject-name">${subject.name}</div>
+                <div class="grade-subject-details">
+                    <span class="grade-subject-code">${subject.code}</span>
+                    <span class="grade-subject-credits">${subject.credits} hrs/week</span>
+                </div>
+                <div class="grade-subject-description">${subject.description}</div>
+            </div>
+            <div class="grade-subject-actions">
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeSubjectFromGrade('${subject.id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add Subject to Grade
+function addSubjectToGrade(subjectId) {
+    const subject = availableSubjects.find(s => s.id === subjectId);
+    if (!subject) {
+        showNotification('Subject not found', 'error');
+        return;
+    }
+    
+    if (!currentGradeId) {
+        showNotification('Grade not found', 'error');
+        return;
+    }
+    
+    // Initialize grade subjects array if it doesn't exist
+    if (!gradeSubjectsData[currentGradeId]) {
+        gradeSubjectsData[currentGradeId] = [];
+    }
+    
+    // Add subject to grade
+    gradeSubjectsData[currentGradeId].push({
+        id: subject.id,
+        name: subject.name,
+        code: subject.code,
+        description: subject.description,
+        credits: subject.credits
+    });
+    
+    // Update displays
+    updateCurrentGradeSubjectsDisplay(gradeSubjectsData[currentGradeId]);
+    
+    // Close the popup
+    closeAddSubjectPopup();
+    
+    showNotification(`${subject.name} added to ${currentGradeId}`, 'success');
+}
+
+// Remove Subject from Grade
+function removeSubjectFromGrade(subjectId) {
+    if (!currentGradeId || !gradeSubjectsData[currentGradeId]) {
+        showNotification('Grade not found', 'error');
+        return;
+    }
+    
+    const subjectIndex = gradeSubjectsData[currentGradeId].findIndex(s => s.id === subjectId);
+    
+    if (subjectIndex === -1) {
+        showNotification('Subject not found in grade', 'error');
+        return;
+    }
+    
+    const subject = gradeSubjectsData[currentGradeId][subjectIndex];
+    gradeSubjectsData[currentGradeId].splice(subjectIndex, 1);
+    
+    // Update display
+    updateCurrentGradeSubjectsDisplay(gradeSubjectsData[currentGradeId]);
+    
+    showNotification(`${subject.name} removed from ${currentGradeId}`, 'success');
 }
 
 // Close class modal
