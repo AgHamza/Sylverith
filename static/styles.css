@@ -3452,6 +3452,764 @@ body {
 /* Admin Dashboard Styles */
 
 /* Admin Navigation */
+/* ===== LEVELS SECTION STYLES ===== */
+
+/* Add Class and Add Grade Modal Styles */
+#addClassModal .modal-content,
+#addGradeModal .modal-content {
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#addClassModal .modal-header,
+#addGradeModal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 30px 20px;
+    border-bottom: 1px solid #e1e5e9;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+#addClassModal .modal-header h2,
+#addGradeModal .modal-header h2 {
+    color: #072A53;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+}
+
+#addClassModal .modal-header .close,
+#addGradeModal .modal-header .close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+#addClassModal .modal-header .close:hover,
+#addGradeModal .modal-header .close:hover {
+    color: #000;
+}
+
+#addClassModal .modal-body,
+#addGradeModal .modal-body {
+    padding: 30px;
+    background: #ffffff;
+    width: 100% !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#addClassModal form,
+#addGradeModal form {
+    width: 100% !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#addClassModal .form-row,
+#addGradeModal .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+#addClassModal .form-group,
+#addGradeModal .form-group {
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+}
+
+#addClassModal .form-row .form-group,
+#addGradeModal .form-row .form-group {
+    margin-bottom: 0;
+}
+
+#addClassModal .form-group label,
+#addGradeModal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #072A53;
+    font-size: 0.95rem;
+}
+
+#addClassModal .form-group input,
+#addClassModal .form-group select,
+#addClassModal .form-group textarea,
+#addGradeModal .form-group input,
+#addGradeModal .form-group select,
+#addGradeModal .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#addClassModal .form-group input:focus,
+#addClassModal .form-group select:focus,
+#addClassModal .form-group textarea:focus,
+#addGradeModal .form-group input:focus,
+#addGradeModal .form-group select:focus,
+#addGradeModal .form-group textarea:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+#addClassModal .form-group textarea,
+#addGradeModal .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+#addClassModal .modal-footer,
+#addGradeModal .modal-footer {
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border-top: 1px solid #e1e5e9;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+#addClassModal .btn,
+#addGradeModal .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#addClassModal .btn-primary,
+#addGradeModal .btn-primary {
+    background: linear-gradient(135deg, #4A90E2 0%, #072A53 100%);
+    color: white;
+}
+
+#addClassModal .btn-primary:hover,
+#addGradeModal .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+#addClassModal .btn-secondary,
+#addGradeModal .btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+#addClassModal .btn-secondary:hover,
+#addGradeModal .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+
+.levels-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 0 10px;
+}
+
+.level-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(74, 144, 226, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.level-card:hover {
+    border-color: rgba(74, 144, 226, 0.3);
+}
+
+.level-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4A90E2, #357ABD, #2E5BBA);
+    transition: height 0.3s ease;
+}
+
+
+.level-header {
+    padding: 25px 30px 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+.level-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+    position: relative;
+}
+
+.level-icon::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(8px);
+}
+
+.level-info {
+    flex: 1;
+}
+
+.level-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.level-info h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #072A53;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.edit-grade-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    opacity: 0.7;
+}
+
+.edit-grade-btn:hover {
+    background: #5a6268;
+    opacity: 1;
+}
+
+.level-info p {
+    font-size: 15px;
+    color: #6c757d;
+    margin: 0;
+    font-weight: 500;
+}
+
+.level-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.class-count,
+.student-count {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.class-count {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #1976d2;
+    border-color: rgba(25, 118, 210, 0.2);
+}
+
+.student-count {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    color: #7b1fa2;
+    border-color: rgba(123, 31, 162, 0.2);
+}
+
+.level-classes {
+    padding: 0 30px 25px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.class-item {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.class-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.05), rgba(53, 122, 189, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.class-item:hover {
+    border-color: #4A90E2;
+}
+
+.class-item:hover::before {
+    opacity: 1;
+}
+
+.class-name {
+    font-weight: 700;
+    color: #072A53;
+    font-size: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.class-students {
+    font-size: 13px;
+    color: #6c757d;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+}
+
+/* Add New Class Card */
+.add-class-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed rgba(74, 144, 226, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 80px;
+}
+
+.add-class-card:hover {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-color: rgba(74, 144, 226, 0.5);
+}
+
+.add-class-card .plus-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.add-class-card .add-text {
+    font-size: 14px;
+    color: #4A90E2;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Class Modal Styles */
+.class-modal-content {
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(74, 144, 226, 0.1);
+    overflow: hidden;
+}
+
+.class-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.class-details-section,
+.current-teachers-section,
+.assign-teacher-section {
+    margin: 0 20px 20px 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid rgba(74, 144, 226, 0.1);
+    position: relative;
+}
+
+.class-details-section::before,
+.current-teachers-section::before,
+.assign-teacher-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4A90E2, #357ABD, #2E5BBA);
+}
+
+.class-details-section h3,
+.current-teachers-section h3,
+.assign-teacher-section h3 {
+    color: #072A53;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.class-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+
+.detail-item label {
+    font-weight: 500;
+    color: #6c757d;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-item span {
+    color: #072A53;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.class-detail-item {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.class-detail-name {
+    font-weight: 600;
+    color: #072A53;
+    font-size: 16px;
+}
+
+.class-detail-stats {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.teacher-detail-item {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.teacher-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.teacher-info {
+    flex: 1;
+}
+
+.teacher-name {
+    font-weight: 600;
+    color: #072A53;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.teacher-subject {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.teacher-classes {
+    font-size: 11px;
+    color: #495057;
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* Assign Teacher Form Styles */
+.assign-teacher-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.assign-teacher-form .btn {
+    align-self: flex-end;
+    width: auto;
+    min-width: 150px;
+}
+
+.assign-teacher-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.assign-teacher-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.assign-teacher-form label {
+    font-weight: 600;
+    color: #072A53;
+    font-size: 14px;
+    letter-spacing: -0.2px;
+}
+
+.assign-teacher-form .form-select {
+    padding: 10px 12px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.assign-teacher-form .form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+}
+
+.assign-teacher-form .btn {
+    padding: 10px 16px;
+    background: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.assign-teacher-form .btn:hover {
+    background: #357ABD;
+}
+
+/* Current Teachers Display */
+.current-teacher-item {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+
+.current-teacher-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.current-teacher-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+
+.current-teacher-details {
+    flex: 1;
+}
+
+.current-teacher-name {
+    font-weight: 600;
+    color: #072A53;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.current-teacher-subject {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+    background: #f8f9fa;
+    padding: 2px 8px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.remove-teacher-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.remove-teacher-btn:hover {
+    background: #c82333;
+}
+
+.no-teachers {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
+
 .admin-navbar {
     position: fixed;
     top: 0;
@@ -4269,6 +5027,210 @@ body {
     .section-header h1 {
         font-size: 1.6rem; /* Smaller font size on mobile */
         line-height: 1.3;
+    }
+    
+    /* Levels Section Mobile Styles */
+    .levels-container {
+        gap: 15px;
+        padding: 0 5px;
+    }
+    
+    .level-card {
+        border-radius: 16px;
+    }
+    
+    .level-header {
+        padding: 25px 25px 15px 25px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .level-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        border-radius: 16px;
+    }
+    
+    .level-title-row {
+        gap: 8px;
+    }
+    
+    .level-info h3 {
+        font-size: 24px;
+    }
+    
+    .edit-grade-btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+    
+    .level-stats {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .level-classes {
+        padding: 0 25px 25px 25px;
+        gap: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .class-item {
+        padding: 15px;
+        border-radius: 12px;
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .class-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .class-students {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+    
+    .add-class-card {
+        padding: 15px;
+        min-height: auto;
+        gap: 8px;
+    }
+    
+    .add-class-card .plus-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .add-class-card .add-text {
+        font-size: 12px;
+    }
+    
+    /* Class Modal Mobile Styles */
+    .class-modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 2% auto;
+        border-radius: 20px;
+    }
+    
+    .class-details-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .class-details-section,
+    .current-teachers-section,
+    .assign-teacher-section {
+        padding: 25px;
+        margin: 0 20px 25px 20px;
+        border-radius: 16px;
+    }
+    
+    .detail-item {
+        padding: 18px;
+        border-radius: 14px;
+    }
+    
+    .current-teacher-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 18px;
+        border-radius: 14px;
+    }
+    
+    .current-teacher-info {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+    
+    .current-teacher-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .assign-teacher-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .assign-teacher-form .btn {
+        padding: 14px 24px;
+        font-size: 13px;
+    }
+    
+    /* Add Class and Add Grade Modal Mobile Styles */
+    #addClassModal .modal-content,
+    #addGradeModal .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 10% auto;
+    }
+    
+    #addClassModal .modal-header,
+    #addGradeModal .modal-header {
+        padding: 20px 25px;
+    }
+    
+    #addClassModal .modal-header h2,
+    #addGradeModal .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    #addClassModal .modal-body,
+    #addGradeModal .modal-body {
+        padding: 25px;
+    }
+    
+    #addClassModal .form-row,
+    #addGradeModal .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    #addClassModal .form-group,
+    #addGradeModal .form-group {
+        margin-bottom: 20px;
+    }
+    
+    #addClassModal .form-group input,
+    #addClassModal .form-group select,
+    #addClassModal .form-group textarea,
+    #addGradeModal .form-group input,
+    #addGradeModal .form-group select,
+    #addGradeModal .form-group textarea {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+    }
+    
+    #addClassModal .modal-footer,
+    #addGradeModal .modal-footer {
+        padding: 15px 25px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #addClassModal .btn,
+    #addGradeModal .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 0.9rem;
     }
 }
 

@@ -72,6 +72,10 @@
                     <i class="fas fa-graduation-cap"></i>
                     <span>Marks</span>
                 </a>
+                <a href="#levels" class="sidebar-item" onclick="showSection('levels')">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Levels</span>
+                </a>
                 <a href="#contact" class="sidebar-item" onclick="showSection('contact')">
                     <i class="fas fa-envelope"></i>
                     <span>Contact</span>
@@ -457,6 +461,199 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Levels Section -->
+            <section id="levels-section" class="admin-section">
+                <div class="section-header">
+                    <h1>School Levels</h1>
+                    <button class="add-btn" onclick="addNewGrade()">
+                        <i class="fas fa-plus"></i>
+                        Add New Grade
+                    </button>
+                </div>
+
+                <div class="levels-container">
+                    <!-- Grade 1 Level -->
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="level-info">
+                                <div class="level-title-row">
+                                    <h3>Grade 1</h3>
+                                    <button class="edit-grade-btn" onclick="editGrade('grade1')" title="Edit Grade">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <p>Elementary Level - Ages 6-7</p>
+                            </div>
+                            <div class="level-stats">
+                                <span class="class-count">2 Classes</span>
+                                <span class="student-count">48 Students</span>
+                            </div>
+                        </div>
+                        <div class="level-classes">
+                            <div class="class-item" onclick="openClassModal('grade1a')">
+                                <span class="class-name">Grade 1A</span>
+                                <span class="class-students">24 Students</span>
+                            </div>
+                            <div class="class-item" onclick="openClassModal('grade1b')">
+                                <span class="class-name">Grade 1B</span>
+                                <span class="class-students">24 Students</span>
+                            </div>
+                            <div class="add-class-card" onclick="addNewClass('elementary')">
+                                <div class="plus-icon">+</div>
+                                <div class="add-text">Add New Class</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade 2 Level -->
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="level-info">
+                                <div class="level-title-row">
+                                    <h3>Grade 2</h3>
+                                    <button class="edit-grade-btn" onclick="editGrade('grade2')" title="Edit Grade">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <p>Elementary Level - Ages 7-8</p>
+                            </div>
+                            <div class="level-stats">
+                                <span class="class-count">2 Classes</span>
+                                <span class="student-count">46 Students</span>
+                            </div>
+                        </div>
+                        <div class="level-classes">
+                            <div class="class-item" onclick="openClassModal('grade2a')">
+                                <span class="class-name">Grade 2A</span>
+                                <span class="class-students">23 Students</span>
+                            </div>
+                            <div class="class-item" onclick="openClassModal('grade2b')">
+                                <span class="class-name">Grade 2B</span>
+                                <span class="class-students">23 Students</span>
+                            </div>
+                            <div class="add-class-card" onclick="addNewClass('elementary')">
+                                <div class="plus-icon">+</div>
+                                <div class="add-text">Add New Class</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade 3 Level -->
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="level-info">
+                                <div class="level-title-row">
+                                    <h3>Grade 3</h3>
+                                    <button class="edit-grade-btn" onclick="editGrade('grade3')" title="Edit Grade">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <p>Elementary Level - Ages 8-9</p>
+                            </div>
+                            <div class="level-stats">
+                                <span class="class-count">2 Classes</span>
+                                <span class="student-count">44 Students</span>
+                            </div>
+                        </div>
+                        <div class="level-classes">
+                            <div class="class-item" onclick="openClassModal('grade3a')">
+                                <span class="class-name">Grade 3A</span>
+                                <span class="class-students">22 Students</span>
+                            </div>
+                            <div class="class-item" onclick="openClassModal('grade3b')">
+                                <span class="class-name">Grade 3B</span>
+                                <span class="class-students">22 Students</span>
+                            </div>
+                            <div class="add-class-card" onclick="addNewClass('elementary')">
+                                <div class="plus-icon">+</div>
+                                <div class="add-text">Add New Class</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade 4 Level -->
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="level-info">
+                                <div class="level-title-row">
+                                    <h3>Grade 4</h3>
+                                    <button class="edit-grade-btn" onclick="editGrade('grade4')" title="Edit Grade">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <p>Intermediate Level - Ages 9-10</p>
+                            </div>
+                            <div class="level-stats">
+                                <span class="class-count">2 Classes</span>
+                                <span class="student-count">42 Students</span>
+                            </div>
+                        </div>
+                        <div class="level-classes">
+                            <div class="class-item" onclick="openClassModal('grade4a')">
+                                <span class="class-name">Grade 4A</span>
+                                <span class="class-students">21 Students</span>
+                            </div>
+                            <div class="class-item" onclick="openClassModal('grade4b')">
+                                <span class="class-name">Grade 4B</span>
+                                <span class="class-students">21 Students</span>
+                            </div>
+                            <div class="add-class-card" onclick="addNewClass('intermediate')">
+                                <div class="plus-icon">+</div>
+                                <div class="add-text">Add New Class</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade 5 Level -->
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="level-info">
+                                <div class="level-title-row">
+                                    <h3>Grade 5</h3>
+                                    <button class="edit-grade-btn" onclick="editGrade('grade5')" title="Edit Grade">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <p>Intermediate Level - Ages 10-11</p>
+                            </div>
+                            <div class="level-stats">
+                                <span class="class-count">2 Classes</span>
+                                <span class="student-count">40 Students</span>
+                            </div>
+                        </div>
+                        <div class="level-classes">
+                            <div class="class-item" onclick="openClassModal('grade5a')">
+                                <span class="class-name">Grade 5A</span>
+                                <span class="class-students">20 Students</span>
+                            </div>
+                            <div class="class-item" onclick="openClassModal('grade5b')">
+                                <span class="class-name">Grade 5B</span>
+                                <span class="class-students">20 Students</span>
+                            </div>
+                            <div class="add-class-card" onclick="addNewClass('intermediate')">
+                                <div class="plus-icon">+</div>
+                                <div class="add-text">Add New Class</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1167,6 +1364,168 @@
                     <button type="submit" class="submit-btn">Save Marks</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Class Details Modal -->
+    <div id="classModal" class="modal">
+        <div class="modal-content class-modal-content">
+            <div class="modal-header">
+                <h2 id="classModalTitle">Class Details</h2>
+                <span class="close" onclick="closeClassModal()">&times;</span>
+            </div>
+            <div class="class-modal-body">
+                <!-- Class Information Section -->
+                <div class="class-details-section">
+                    <h3><i class="fas fa-info-circle"></i> Class Information</h3>
+                    <div class="class-details-grid">
+                        <div class="detail-item">
+                            <label>Class Name:</label>
+                            <span id="detailClassName">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Grade Level:</label>
+                            <span id="detailGradeLevel">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Student Count:</label>
+                            <span id="detailStudentCount">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Teachers Section -->
+                <div class="current-teachers-section">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Current Teachers</h3>
+                    <div id="currentTeachersContainer">
+                        <!-- Current teachers will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Assign Teacher Section -->
+                <div class="assign-teacher-section">
+                    <h3><i class="fas fa-user-plus"></i> Assign Teacher</h3>
+                    <div class="assign-teacher-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="teacherSelect">Select Teacher:</label>
+                                <select id="teacherSelect" class="form-select">
+                                    <option value="">Choose a teacher...</option>
+                                    <!-- Teachers will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="subjectSelect">Subject:</label>
+                                <select id="subjectSelect" class="form-select">
+                                    <option value="">Select subject...</option>
+                                    <option value="General Studies">General Studies</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="English">English</option>
+                                    <option value="Arabic">Arabic</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Art">Art</option>
+                                    <option value="Physical Education">Physical Education</option>
+                                    <option value="Music">Music</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="assignTeacherToClass()">
+                            <i class="fas fa-plus"></i> Assign Teacher
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeClassModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Class Modal -->
+    <div id="addClassModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="addClassModalTitle">Add New Class</h2>
+                <span class="close" onclick="closeAddClassModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addClassForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="className">Class Name:</label>
+                            <input type="text" id="className" name="className" placeholder="e.g., Grade 1C" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="classCapacity">Class Capacity:</label>
+                            <input type="number" id="classCapacity" name="classCapacity" placeholder="e.g., 25" min="1" max="50" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="classGradeLevel">Grade Level:</label>
+                        <select id="classGradeLevel" name="classGradeLevel" required>
+                            <option value="">Select Grade Level</option>
+                            <option value="Grade 1">Grade 1</option>
+                            <option value="Grade 2">Grade 2</option>
+                            <option value="Grade 3">Grade 3</option>
+                            <option value="Grade 4">Grade 4</option>
+                            <option value="Grade 5">Grade 5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="classDescription">Description (Optional):</label>
+                        <textarea id="classDescription" name="classDescription" placeholder="Additional notes about the class..." rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAddClassModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveNewClass()">
+                    <i class="fas fa-plus"></i> Add Class
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Grade Modal -->
+    <div id="addGradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="addGradeModalTitle">Add New Grade</h2>
+                <span class="close" onclick="closeAddGradeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addGradeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gradeName">Grade Name:</label>
+                            <input type="text" id="gradeName" name="gradeName" placeholder="e.g., Grade 6" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gradeAgeRange">Age Range:</label>
+                            <input type="text" id="gradeAgeRange" name="gradeAgeRange" placeholder="e.g., Ages 11-12" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="gradeLevel">Level Type:</label>
+                        <select id="gradeLevel" name="gradeLevel" required>
+                            <option value="">Select Level Type</option>
+                            <option value="Elementary">Elementary</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Secondary">Secondary</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gradeDescription">Description:</label>
+                        <textarea id="gradeDescription" name="gradeDescription" placeholder="Description of the grade level..." rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAddGradeModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveNewGrade()">
+                    <i class="fas fa-plus"></i> Add Grade
+                </button>
+            </div>
         </div>
     </div>
 

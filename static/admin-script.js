@@ -28,7 +28,7 @@ function initializeModals() {
     console.log('Initializing modals...');
     
     // Ensure all modals are hidden initially
-    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal'];
+    const modals = ['studentModal', 'assistantModal', 'teacherModal', 'studentDetailsModal', 'tutorModal', 'classModal', 'addClassModal', 'addGradeModal'];
     modals.forEach(modalId => {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -56,6 +56,8 @@ function initializeModals() {
                         closeStudentDetailsModal();
                     } else if (closeFunction === 'tutorModal') {
                         closeTutorModal();
+                    } else if (closeFunction === 'classModal') {
+                        closeClassModal();
                     }
                 }
             });
@@ -79,6 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize contact section
     initializeContactSection();
+    
+    // Initialize levels section
+    initializeLevelsSection();
     
     // Initialize modals
     initializeModals();
@@ -1675,4 +1680,416 @@ function initializeContactSection() {
     
     // Initial audience count
     updateAudienceCount();
+}
+
+// ===== CLASSES SECTION FUNCTIONALITY =====
+
+// Sample data for classes (in a real app, this would come from the backend)
+const classesData = {
+    grade1a: {
+        name: "Grade 1A",
+        gradeLevel: "Grade 1",
+        studentCount: 24,
+        classTeacher: "Ms. Sarah Johnson",
+        currentTeachers: [
+            { name: "Ms. Sarah Johnson", subject: "General Studies", id: "T001" },
+            { name: "Ms. Emily Brown", subject: "Art & Music", id: "T002" }
+        ]
+    },
+    grade1b: {
+        name: "Grade 1B",
+        gradeLevel: "Grade 1",
+        studentCount: 24,
+        classTeacher: "Mr. David Wilson",
+        currentTeachers: [
+            { name: "Mr. David Wilson", subject: "General Studies", id: "T003" },
+            { name: "Ms. Emily Brown", subject: "Art & Music", id: "T002" }
+        ]
+    },
+    grade2a: {
+        name: "Grade 2A",
+        gradeLevel: "Grade 2",
+        studentCount: 23,
+        classTeacher: "Ms. Lisa Anderson",
+        currentTeachers: [
+            { name: "Ms. Lisa Anderson", subject: "General Studies", id: "T004" },
+            { name: "Ms. Jennifer Taylor", subject: "Physical Education", id: "T005" }
+        ]
+    },
+    grade2b: {
+        name: "Grade 2B",
+        gradeLevel: "Grade 2",
+        studentCount: 23,
+        classTeacher: "Mr. Michael Davis",
+        currentTeachers: [
+            { name: "Mr. Michael Davis", subject: "General Studies", id: "T006" },
+            { name: "Ms. Jennifer Taylor", subject: "Physical Education", id: "T005" }
+        ]
+    },
+    grade3a: {
+        name: "Grade 3A",
+        gradeLevel: "Grade 3",
+        studentCount: 22,
+        classTeacher: "Ms. Amanda White",
+        currentTeachers: [
+            { name: "Ms. Amanda White", subject: "General Studies", id: "T007" },
+            { name: "Ms. Maria Rodriguez", subject: "Science", id: "T008" }
+        ]
+    },
+    grade3b: {
+        name: "Grade 3B",
+        gradeLevel: "Grade 3",
+        studentCount: 22,
+        classTeacher: "Mr. Robert Garcia",
+        currentTeachers: [
+            { name: "Mr. Robert Garcia", subject: "General Studies", id: "T009" },
+            { name: "Ms. Maria Rodriguez", subject: "Science", id: "T008" }
+        ]
+    },
+    grade4a: {
+        name: "Grade 4A",
+        gradeLevel: "Grade 4",
+        studentCount: 21,
+        classTeacher: "Ms. Jessica Lee",
+        currentTeachers: [
+            { name: "Ms. Jessica Lee", subject: "General Studies", id: "T010" },
+            { name: "Ms. Rachel Green", subject: "Mathematics", id: "T011" }
+        ]
+    },
+    grade4b: {
+        name: "Grade 4B",
+        gradeLevel: "Grade 4",
+        studentCount: 21,
+        classTeacher: "Mr. Christopher Kim",
+        currentTeachers: [
+            { name: "Mr. Christopher Kim", subject: "General Studies", id: "T012" },
+            { name: "Ms. Rachel Green", subject: "Mathematics", id: "T011" }
+        ]
+    },
+    grade5a: {
+        name: "Grade 5A",
+        gradeLevel: "Grade 5",
+        studentCount: 20,
+        classTeacher: "Ms. Nicole Adams",
+        currentTeachers: [
+            { name: "Ms. Nicole Adams", subject: "General Studies", id: "T013" },
+            { name: "Ms. Samantha Clark", subject: "English Literature", id: "T014" }
+        ]
+    },
+    grade5b: {
+        name: "Grade 5B",
+        gradeLevel: "Grade 5",
+        studentCount: 20,
+        classTeacher: "Mr. Kevin Martinez",
+        currentTeachers: [
+            { name: "Mr. Kevin Martinez", subject: "General Studies", id: "T015" },
+            { name: "Ms. Samantha Clark", subject: "English Literature", id: "T014" }
+        ]
+    }
+};
+
+// Available teachers for assignment
+const availableTeachers = [
+    { id: "T001", name: "Ms. Sarah Johnson", subject: "General Studies" },
+    { id: "T002", name: "Ms. Emily Brown", subject: "Art & Music" },
+    { id: "T003", name: "Mr. David Wilson", subject: "General Studies" },
+    { id: "T004", name: "Ms. Lisa Anderson", subject: "General Studies" },
+    { id: "T005", name: "Ms. Jennifer Taylor", subject: "Physical Education" },
+    { id: "T006", name: "Mr. Michael Davis", subject: "General Studies" },
+    { id: "T007", name: "Ms. Amanda White", subject: "General Studies" },
+    { id: "T008", name: "Ms. Maria Rodriguez", subject: "Science" },
+    { id: "T009", name: "Mr. Robert Garcia", subject: "General Studies" },
+    { id: "T010", name: "Ms. Jessica Lee", subject: "General Studies" },
+    { id: "T011", name: "Ms. Rachel Green", subject: "Mathematics" },
+    { id: "T012", name: "Mr. Christopher Kim", subject: "General Studies" },
+    { id: "T013", name: "Ms. Nicole Adams", subject: "General Studies" },
+    { id: "T014", name: "Ms. Samantha Clark", subject: "English Literature" },
+    { id: "T015", name: "Mr. Kevin Martinez", subject: "General Studies" },
+    { id: "T016", name: "Mr. James Wilson", subject: "Arabic" },
+    { id: "T017", name: "Ms. Anna Smith", subject: "History" },
+    { id: "T018", name: "Mr. Tom Brown", subject: "Geography" }
+];
+
+// Global variable to store current class ID
+let currentClassId = null;
+
+// Open class modal
+function openClassModal(classId) {
+    const classData = classesData[classId];
+    if (!classData) {
+        showNotification('Class data not found', 'error');
+        return;
+    }
+
+    currentClassId = classId;
+
+    // Update modal title
+    document.getElementById('classModalTitle').textContent = `${classData.name} Details`;
+
+    // Update class information
+    document.getElementById('detailClassName').textContent = classData.name;
+    document.getElementById('detailGradeLevel').textContent = classData.gradeLevel;
+    document.getElementById('detailStudentCount').textContent = classData.studentCount;
+
+    // Update current teachers
+    updateCurrentTeachersDisplay(classData.currentTeachers);
+
+    // Update teacher selection dropdown
+    updateTeacherSelectionDropdown(classData.currentTeachers);
+
+    // Show modal
+    document.getElementById('classModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Update current teachers display
+function updateCurrentTeachersDisplay(teachers) {
+    const container = document.getElementById('currentTeachersContainer');
+    container.innerHTML = '';
+    
+    if (teachers.length === 0) {
+        container.innerHTML = '<p class="no-teachers">No teachers assigned to this class</p>';
+        return;
+    }
+    
+    teachers.forEach(teacher => {
+        const teacherElement = document.createElement('div');
+        teacherElement.className = 'current-teacher-item';
+        teacherElement.innerHTML = `
+            <div class="current-teacher-info">
+                <div class="current-teacher-avatar">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="current-teacher-details">
+                    <div class="current-teacher-name">${teacher.name}</div>
+                    <div class="current-teacher-subject">${teacher.subject}</div>
+                </div>
+            </div>
+            <button class="remove-teacher-btn" onclick="removeTeacherFromClass('${teacher.id}')">
+                <i class="fas fa-times"></i> Remove
+            </button>
+        `;
+        container.appendChild(teacherElement);
+    });
+}
+
+// Update teacher selection dropdown
+function updateTeacherSelectionDropdown(currentTeachers) {
+    const select = document.getElementById('teacherSelect');
+    const currentTeacherIds = currentTeachers.map(t => t.id);
+    
+    select.innerHTML = '<option value="">Choose a teacher...</option>';
+    
+    availableTeachers.forEach(teacher => {
+        if (!currentTeacherIds.includes(teacher.id)) {
+            const option = document.createElement('option');
+            option.value = teacher.id;
+            option.textContent = `${teacher.name} - ${teacher.subject}`;
+            select.appendChild(option);
+        }
+    });
+}
+
+// Assign teacher to class
+function assignTeacherToClass() {
+    const teacherId = document.getElementById('teacherSelect').value;
+    const subject = document.getElementById('subjectSelect').value;
+    
+    if (!teacherId || !subject) {
+        showNotification('Please select both teacher and subject', 'error');
+        return;
+    }
+    
+    const teacher = availableTeachers.find(t => t.id === teacherId);
+    if (!teacher) {
+        showNotification('Teacher not found', 'error');
+        return;
+    }
+    
+    // Add teacher to class data
+    const classData = classesData[currentClassId];
+    classData.currentTeachers.push({
+        id: teacherId,
+        name: teacher.name,
+        subject: subject
+    });
+    
+    // Update displays
+    updateCurrentTeachersDisplay(classData.currentTeachers);
+    updateTeacherSelectionDropdown(classData.currentTeachers);
+    
+    // Clear form
+    document.getElementById('teacherSelect').value = '';
+    document.getElementById('subjectSelect').value = '';
+    
+    showNotification(`${teacher.name} assigned to ${classData.name} for ${subject}`, 'success');
+}
+
+// Remove teacher from class
+function removeTeacherFromClass(teacherId) {
+    const classData = classesData[currentClassId];
+    const teacherIndex = classData.currentTeachers.findIndex(t => t.id === teacherId);
+    
+    if (teacherIndex === -1) {
+        showNotification('Teacher not found in class', 'error');
+        return;
+    }
+    
+    const teacher = classData.currentTeachers[teacherIndex];
+    classData.currentTeachers.splice(teacherIndex, 1);
+    
+    // Update displays
+    updateCurrentTeachersDisplay(classData.currentTeachers);
+    updateTeacherSelectionDropdown(classData.currentTeachers);
+    
+    showNotification(`${teacher.name} removed from ${classData.name}`, 'success');
+}
+
+// Close class modal
+function closeClassModal() {
+    document.getElementById('classModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentClassId = null;
+}
+
+// Add New Class Function
+function addNewClass(levelType) {
+    // Set the grade level in the dropdown based on the level type
+    const gradeLevelSelect = document.getElementById('classGradeLevel');
+    if (gradeLevelSelect) {
+        // Map level types to grade levels
+        const levelMapping = {
+            'elementary': 'Grade 1',
+            'intermediate': 'Grade 4'
+        };
+        const defaultGrade = levelMapping[levelType] || '';
+        gradeLevelSelect.value = defaultGrade;
+    }
+    
+    // Open the modal
+    document.getElementById('addClassModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Add New Grade Function
+function addNewGrade() {
+    // Open the modal
+    document.getElementById('addGradeModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+
+// Edit Individual Grade Function
+function editGrade(gradeId) {
+    alert(`Edit ${gradeId}. This would open a form to edit the specific grade's properties.`);
+    
+    // Future implementation could include:
+    // - Open a modal with form fields for the specific grade
+    // - Allow editing grade name, level type, description, etc.
+    // - Save changes and update the UI
+}
+
+// Close Add Class Modal
+function closeAddClassModal() {
+    document.getElementById('addClassModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.getElementById('addClassForm').reset();
+}
+
+// Save New Class
+function saveNewClass() {
+    const form = document.getElementById('addClassForm');
+    const formData = new FormData(form);
+    
+    // Get form values
+    const className = formData.get('className');
+    const gradeLevel = formData.get('classGradeLevel');
+    const capacity = formData.get('classCapacity');
+    const description = formData.get('classDescription');
+    
+    // Validate form
+    if (!className || !gradeLevel || !capacity) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Here you would typically send the data to the server
+    console.log('New class data:', { className, gradeLevel, capacity, description });
+    
+    // Show success message
+    alert(`Class "${className}" has been added successfully!`);
+    
+    // Close modal and reset form
+    closeAddClassModal();
+    
+    // Future implementation: Update the UI to show the new class
+}
+
+// Close Add Grade Modal
+function closeAddGradeModal() {
+    document.getElementById('addGradeModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.getElementById('addGradeForm').reset();
+}
+
+// Save New Grade
+function saveNewGrade() {
+    const form = document.getElementById('addGradeForm');
+    const formData = new FormData(form);
+    
+    // Get form values
+    const gradeName = formData.get('gradeName');
+    const levelType = formData.get('gradeLevel');
+    const ageRange = formData.get('gradeAgeRange');
+    const description = formData.get('gradeDescription');
+    
+    // Validate form
+    if (!gradeName || !levelType || !ageRange || !description) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Here you would typically send the data to the server
+    console.log('New grade data:', { gradeName, levelType, ageRange, description });
+    
+    // Show success message
+    alert(`Grade "${gradeName}" has been added successfully!`);
+    
+    // Close modal and reset form
+    closeAddGradeModal();
+    
+    // Future implementation: Update the UI to show the new grade
+}
+
+// Initialize classes section
+function initializeLevelsSection() {
+    // Add click outside to close functionality for class modal
+    const classModal = document.getElementById('classModal');
+    if (classModal) {
+        classModal.addEventListener('click', function(e) {
+            if (e.target === classModal) {
+                closeClassModal();
+            }
+        });
+    }
+    
+    // Add click outside to close functionality for add class modal
+    const addClassModal = document.getElementById('addClassModal');
+    if (addClassModal) {
+        addClassModal.addEventListener('click', function(e) {
+            if (e.target === addClassModal) {
+                closeAddClassModal();
+            }
+        });
+    }
+    
+    // Add click outside to close functionality for add grade modal
+    const addGradeModal = document.getElementById('addGradeModal');
+    if (addGradeModal) {
+        addGradeModal.addEventListener('click', function(e) {
+            if (e.target === addGradeModal) {
+                closeAddGradeModal();
+            }
+        });
+    }
 }
