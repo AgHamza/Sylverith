@@ -2,9 +2,22 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import json
 import os
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'sylverith_secret_key_2024'  # Change this in production
+
+# Configure file upload
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+
+# Create upload directory if it doesn't exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Sample Database (in production, use a real database)
 class Database:
@@ -19,6 +32,16 @@ class Database:
                 "permissions": ["all"],
                 "lastLogin": None,
                 "createdAt": "2024-01-01"
+            },
+            {
+                "id": 999,
+                "email": "test@example.com",
+                "password": "test123",
+                "name": "Test User",
+                "role": "teacher",
+                "permissions": ["students", "marks", "reports"],
+                "lastLogin": None,
+                "createdAt": "2024-01-15"
             },
             {
                 "id": 2,
@@ -39,6 +62,28 @@ class Database:
                 "permissions": ["students", "parents", "classes"],
                 "lastLogin": None,
                 "createdAt": "2024-01-01"
+            },
+            {
+                "id": 4,
+                "email": "emily.johnson@teacher.sylverith.com",
+                "password": "prof123",
+                "name": "Dr. Emily Johnson",
+                "role": "teacher",
+                "permissions": ["students", "marks", "reports", "assignments"],
+                "lastLogin": None,
+                "createdAt": "2024-12-01",
+                "teacherId": "T001"
+            },
+            {
+                "id": 5,
+                "email": "john.doe@student.sylverith.com",
+                "password": "student123",
+                "name": "John Doe",
+                "role": "student",
+                "permissions": ["assignments", "schedule"],
+                "lastLogin": None,
+                "createdAt": "2024-12-01",
+                "studentId": "ST001"
             }
         ]
         
@@ -351,11 +396,464 @@ class Database:
                 "details": {"classId": "C001", "className": "Grade 5A"}
             }
         ]
+        
+        # Assignment Management Data
+        self.assignments = [
+            {
+                "id": "ASG001",
+                "title": "Math Homework - Chapter 5",
+                "description": "Complete exercises 1-20 from chapter 5. Show all work and submit by Friday.",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "subject": "Mathematics",
+                "dueDate": "2024-12-20",
+                "createdDate": "2024-12-15",
+                "attachments": ["math_chapter5.pdf"],
+                "status": "active"
+            },
+            {
+                "id": "ASG002",
+                "title": "English Essay - My Favorite Book",
+                "description": "Write a 500-word essay about your favorite book. Include introduction, body paragraphs, and conclusion.",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "subject": "English Literature",
+                "dueDate": "2024-12-22",
+                "createdDate": "2024-12-16",
+                "attachments": ["essay_guidelines.pdf"],
+                "status": "active"
+            },
+            {
+                "id": "ASG003",
+                "title": "Physics Lab Report - Motion",
+                "description": "Complete the motion experiment and write a detailed lab report including hypothesis, procedure, data analysis, and conclusions.",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "subject": "Physics",
+                "dueDate": "2024-12-18",
+                "createdDate": "2024-12-10",
+                "attachments": ["lab_instructions.pdf", "data_sheet.xlsx"],
+                "status": "active"
+            },
+            {
+                "id": "ASG004",
+                "title": "Arabic Poetry Analysis",
+                "description": "Analyze the poem 'Al-Qasida' and write a 500-word analysis focusing on themes, literary devices, and cultural significance.",
+                "teacherId": "T003",
+                "teacherName": "Dr. Ahmed Hassan",
+                "classId": "C002",
+                "className": "Grade 4A",
+                "subject": "Arabic",
+                "dueDate": "2024-12-25",
+                "createdDate": "2024-12-12",
+                "attachments": ["poem_text.pdf", "analysis_guide.docx"],
+                "status": "active"
+            },
+            {
+                "id": "ASG005",
+                "title": "French Creative Writing",
+                "description": "Write a short story (300-400 words) in French using the prompt: 'Une lettre mystérieuse arrive à votre porte.' Focus on character development and plot structure.",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "subject": "French",
+                "dueDate": "2024-12-28",
+                "createdDate": "2024-12-14",
+                "attachments": ["writing_prompts.pdf", "rubric.docx"],
+                "status": "active"
+            },
+            {
+                "id": "ASG006",
+                "title": "Math Problem Solving",
+                "description": "Solve the advanced algebra problems from worksheet 3. Show step-by-step solutions and explain your reasoning for each problem.",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "subject": "Mathematics",
+                "dueDate": "2024-12-15",
+                "createdDate": "2024-12-08",
+                "attachments": ["worksheet3.pdf", "solution_template.docx"],
+                "status": "expired"
+            },
+            {
+                "id": "ASG007",
+                "title": "Physics Homework - Forces",
+                "description": "Complete problems 1-15 from the forces chapter. Include free-body diagrams and explain the physics concepts involved.",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "subject": "Physics",
+                "dueDate": "2024-12-16",
+                "createdDate": "2024-12-09",
+                "attachments": ["forces_problems.pdf"],
+                "status": "expired"
+            },
+            {
+                "id": "ASG008",
+                "title": "Arabic Grammar Exercise",
+                "description": "Complete the grammar exercises on verb conjugation and sentence structure. Practice writing sentences using the new grammar rules.",
+                "teacherId": "T003",
+                "teacherName": "Dr. Ahmed Hassan",
+                "classId": "C002",
+                "className": "Grade 4A",
+                "subject": "Arabic",
+                "dueDate": "2024-12-19",
+                "createdDate": "2024-12-11",
+                "attachments": ["grammar_exercises.pdf", "conjugation_table.pdf"],
+                "status": "active"
+            },
+            {
+                "id": "ASG009",
+                "title": "English Vocabulary Quiz",
+                "description": "Study the vocabulary list for Unit 3 and prepare for an oral presentation. Practice pronunciation and usage in sentences.",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "subject": "English Literature",
+                "dueDate": "2024-12-17",
+                "createdDate": "2024-12-13",
+                "attachments": ["vocab_list.pdf", "pronunciation_guide.mp3"],
+                "status": "draft"
+            }
+        ]
+        
+        self.assignment_submissions = [
+            {
+                "id": "SUB001",
+                "assignmentId": "ASG001",
+                "studentId": "ST001",
+                "studentName": "John Doe",
+                "submissionText": "I completed all the exercises. Here are my answers...",
+                "attachments": ["john_math_homework.pdf"],
+                "submittedDate": "2024-12-18",
+                "status": "submitted",
+                "grade": None,
+                "feedback": None
+            }
+        ]
+        
+        self.class_schedules = [
+            # Grade 5A Schedule
+            {
+                "id": "SCH001",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "subject": "Mathematics",
+                "day": "Monday",
+                "startTime": "09:00",
+                "endTime": "10:00",
+                "room": "Room 201"
+            },
+            {
+                "id": "SCH002",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "teacherId": "T004",
+                "teacherName": "Mr. David Lee",
+                "subject": "History",
+                "day": "Monday",
+                "startTime": "10:30",
+                "endTime": "11:30",
+                "room": "Room 201"
+            },
+            {
+                "id": "SCH003",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "subject": "Mathematics",
+                "day": "Wednesday",
+                "startTime": "09:00",
+                "endTime": "10:00",
+                "room": "Room 201"
+            },
+            {
+                "id": "SCH004",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "teacherId": "T003",
+                "teacherName": "Ms. Maria Garcia",
+                "subject": "Science",
+                "day": "Wednesday",
+                "startTime": "10:30",
+                "endTime": "11:30",
+                "room": "Room 301"
+            },
+            {
+                "id": "SCH005",
+                "classId": "C001",
+                "className": "Grade 5A",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "subject": "English Literature",
+                "day": "Friday",
+                "startTime": "09:00",
+                "endTime": "10:00",
+                "room": "Room 101"
+            },
+            # Grade 4A Schedule
+            {
+                "id": "SCH006",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "subject": "English Literature",
+                "day": "Tuesday",
+                "startTime": "09:00",
+                "endTime": "10:00",
+                "room": "Room 101"
+            },
+            {
+                "id": "SCH007",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "teacherId": "T001",
+                "teacherName": "Dr. Emily Johnson",
+                "subject": "Mathematics",
+                "day": "Tuesday",
+                "startTime": "10:30",
+                "endTime": "11:30",
+                "room": "Room 201"
+            },
+            {
+                "id": "SCH008",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "teacherId": "T003",
+                "teacherName": "Ms. Maria Garcia",
+                "subject": "Science",
+                "day": "Thursday",
+                "startTime": "09:00",
+                "endTime": "10:00",
+                "room": "Room 301"
+            },
+            {
+                "id": "SCH009",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "teacherId": "T004",
+                "teacherName": "Mr. David Lee",
+                "subject": "History",
+                "day": "Thursday",
+                "startTime": "10:30",
+                "endTime": "11:30",
+                "room": "Room 201"
+            },
+            {
+                "id": "SCH010",
+                "classId": "C003",
+                "className": "Grade 4A",
+                "teacherId": "T002",
+                "teacherName": "Mr. James Brown",
+                "subject": "English Literature",
+                "day": "Friday",
+                "startTime": "10:30",
+                "endTime": "11:30",
+                "room": "Room 101"
+            }
+        ]
+        
+        # Individual marks for assignments and tests
+        self.individual_marks = [
+            # Math marks
+            {
+                "id": 1,
+                "student_id": "ST001",
+                "subject": "Math",
+                "description": "Chapter 5 Quiz",
+                "value": 18,
+                "max_value": 20,
+                "date": "2024-01-15",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 2,
+                "student_id": "ST001",
+                "subject": "Math",
+                "description": "Homework Assignment",
+                "value": 16,
+                "max_value": 20,
+                "date": "2024-01-18",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 3,
+                "student_id": "ST001",
+                "subject": "Math",
+                "description": "Midterm Exam",
+                "value": 17,
+                "max_value": 20,
+                "date": "2024-01-25",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 4,
+                "student_id": "ST001",
+                "subject": "Math",
+                "description": "Problem Solving Test",
+                "value": 19,
+                "max_value": 20,
+                "date": "2024-02-01",
+                "teacher_name": "Emily Johnson"
+            },
+            # French marks
+            {
+                "id": 5,
+                "student_id": "ST001",
+                "subject": "French",
+                "description": "Vocabulary Test",
+                "value": 15,
+                "max_value": 20,
+                "date": "2024-01-16",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 6,
+                "student_id": "ST001",
+                "subject": "French",
+                "description": "Oral Presentation",
+                "value": 17,
+                "max_value": 20,
+                "date": "2024-01-20",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 7,
+                "student_id": "ST001",
+                "subject": "French",
+                "description": "Grammar Exercise",
+                "value": 14,
+                "max_value": 20,
+                "date": "2024-01-28",
+                "teacher_name": "Emily Johnson"
+            },
+            {
+                "id": 8,
+                "student_id": "ST001",
+                "subject": "French",
+                "description": "Writing Assignment",
+                "value": 16,
+                "max_value": 20,
+                "date": "2024-02-05",
+                "teacher_name": "Emily Johnson"
+            },
+            # English marks
+            {
+                "id": 9,
+                "student_id": "ST001",
+                "subject": "English",
+                "description": "Reading Comprehension",
+                "value": 14,
+                "max_value": 20,
+                "date": "2024-01-17",
+                "teacher_name": "Sarah Wilson"
+            },
+            {
+                "id": 10,
+                "student_id": "ST001",
+                "subject": "English",
+                "description": "Essay Writing",
+                "value": 15,
+                "max_value": 20,
+                "date": "2024-01-24",
+                "teacher_name": "Sarah Wilson"
+            },
+            {
+                "id": 11,
+                "student_id": "ST001",
+                "subject": "English",
+                "description": "Literature Analysis",
+                "value": 13,
+                "max_value": 20,
+                "date": "2024-01-31",
+                "teacher_name": "Sarah Wilson"
+            },
+            # Physics marks
+            {
+                "id": 12,
+                "student_id": "ST001",
+                "subject": "Physics",
+                "description": "Lab Report",
+                "value": 19,
+                "max_value": 20,
+                "date": "2024-01-19",
+                "teacher_name": "Michael Brown"
+            },
+            {
+                "id": 13,
+                "student_id": "ST001",
+                "subject": "Physics",
+                "description": "Theory Test",
+                "value": 18,
+                "max_value": 20,
+                "date": "2024-01-26",
+                "teacher_name": "Michael Brown"
+            },
+            {
+                "id": 14,
+                "student_id": "ST001",
+                "subject": "Physics",
+                "description": "Practical Exam",
+                "value": 17,
+                "max_value": 20,
+                "date": "2024-02-02",
+                "teacher_name": "Michael Brown"
+            },
+            # Arabic marks
+            {
+                "id": 15,
+                "student_id": "ST001",
+                "subject": "Arabic",
+                "description": "Grammar Test",
+                "value": 13,
+                "max_value": 20,
+                "date": "2024-01-14",
+                "teacher_name": "Ahmed Hassan"
+            },
+            {
+                "id": 16,
+                "student_id": "ST001",
+                "subject": "Arabic",
+                "description": "Reading Test",
+                "value": 12,
+                "max_value": 20,
+                "date": "2024-01-21",
+                "teacher_name": "Ahmed Hassan"
+            },
+            {
+                "id": 17,
+                "student_id": "ST001",
+                "subject": "Arabic",
+                "description": "Writing Exercise",
+                "value": 14,
+                "max_value": 20,
+                "date": "2024-01-29",
+                "teacher_name": "Ahmed Hassan"
+            }
+        ]
 
     def authenticate_user(self, email, password):
         user = next((u for u in self.admin_users if u["email"] == email and u["password"] == password), None)
         if user:
+            # Check if this is a first-time login (no previous login recorded)
+            is_first_login = user.get("lastLogin") is None
+            
             user["lastLogin"] = datetime.now().isoformat()
+            
             return {
                 "success": True,
                 "user": {
@@ -364,9 +862,21 @@ class Database:
                     "name": user["name"],
                     "role": user["role"],
                     "permissions": user["permissions"]
-                }
+                },
+                "is_first_login": is_first_login
             }
         return {"success": False, "message": "Invalid credentials"}
+
+    def get_permissions_for_role(self, role):
+        """Get permissions based on user role"""
+        role_permissions = {
+            "super_admin": ["all"],
+            "principal": ["students", "teachers", "classes", "reports"],
+            "registrar": ["students", "parents", "classes"],
+            "teacher": ["students", "marks", "reports"],
+            "assistant": ["students", "reports"]
+        }
+        return role_permissions.get(role, [])
 
     def get_statistics(self):
         # Get unique classes from students
@@ -683,6 +1193,111 @@ class Database:
             "details": details or {}
         }
         self.activities.insert(0, activity)
+    
+    # Assignment Management Methods
+    def get_assignments_by_teacher(self, teacher_id):
+        return [a for a in self.assignments if a["teacherId"] == teacher_id and a["status"] == "active"]
+    
+    def get_assignments_by_student(self, student_id):
+        # Get student's class
+        student = next((s for s in self.students if s["id"] == student_id), None)
+        if not student:
+            return []
+        
+        student_class = student.get("class")
+        if not student_class:
+            return []
+        
+        # Get assignments for student's class
+        class_assignments = [a for a in self.assignments if a["className"] == student_class and a["status"] == "active"]
+        
+        # Add submission status for each assignment
+        for assignment in class_assignments:
+            submission = next((s for s in self.assignment_submissions 
+                             if s["assignmentId"] == assignment["id"] and s["studentId"] == student_id), None)
+            assignment["submission"] = submission
+            assignment["isSubmitted"] = submission is not None
+        
+        return class_assignments
+    
+    def get_class_schedule_by_teacher(self, teacher_id):
+        return [s for s in self.class_schedules if s["teacherId"] == teacher_id]
+    
+    def get_class_schedule_by_student(self, student_id):
+        # Get student's class
+        student = next((s for s in self.students if s["id"] == student_id), None)
+        if not student:
+            return []
+        
+        student_class = student.get("class")
+        if not student_class:
+            return []
+        
+        return [s for s in self.class_schedules if s["className"] == student_class]
+    
+    def create_assignment(self, assignment_data):
+        new_id = f"ASG{len(self.assignments) + 1:03d}"
+        
+        # Get teacher name
+        teacher = next((t for t in self.teachers if t["id"] == assignment_data["teacherId"]), None)
+        teacher_name = teacher["name"] if teacher else "Unknown Teacher"
+        
+        # Get class name
+        class_info = next((c for c in self.classes if c["id"] == assignment_data["classId"]), None)
+        class_name = class_info["name"] if class_info else "Unknown Class"
+        
+        new_assignment = {
+            "id": new_id,
+            "title": assignment_data["title"],
+            "description": assignment_data["description"],
+            "teacherId": assignment_data["teacherId"],
+            "teacherName": teacher_name,
+            "classId": assignment_data["classId"],
+            "className": class_name,
+            "subject": assignment_data.get("subject", ""),
+            "dueDate": assignment_data["dueDate"],
+            "createdDate": datetime.now().strftime("%Y-%m-%d"),
+            "attachments": assignment_data.get("attachments", []),
+            "allowReply": assignment_data.get("allowReply", True),
+            "status": "active"
+        }
+        
+        self.assignments.append(new_assignment)
+        self.log_activity("assignment_creation", f"New assignment created: {assignment_data['title']}", 
+                         {"assignmentId": new_id, "teacherId": assignment_data["teacherId"]})
+        return new_assignment
+    
+    def submit_assignment(self, submission_data):
+        new_id = f"SUB{len(self.assignment_submissions) + 1:03d}"
+        
+        # Get student name
+        student = next((s for s in self.students if s["id"] == submission_data["studentId"]), None)
+        student_name = student["name"] if student else "Unknown Student"
+        
+        new_submission = {
+            "id": new_id,
+            "assignmentId": submission_data["assignmentId"],
+            "studentId": submission_data["studentId"],
+            "studentName": student_name,
+            "submissionText": submission_data.get("submissionText", ""),
+            "attachments": submission_data.get("attachments", []),
+            "submittedDate": datetime.now().strftime("%Y-%m-%d"),
+            "status": "submitted",
+            "grade": None,
+            "feedback": None
+        }
+        
+        self.assignment_submissions.append(new_submission)
+        self.log_activity("assignment_submission", f"Assignment submitted by: {student_name}", 
+                         {"submissionId": new_id, "assignmentId": submission_data["assignmentId"]})
+        return new_submission
+    
+    def get_submissions_by_assignment(self, assignment_id):
+        return [s for s in self.assignment_submissions if s["assignmentId"] == assignment_id]
+    
+    def get_marks_by_student(self, student_id):
+        """Get all marks for a specific student"""
+        return [mark for mark in self.individual_marks if mark["student_id"] == student_id]
 
 # Initialize database
 db = Database()
@@ -702,6 +1317,51 @@ def admin():
         return redirect(url_for('login'))
     return render_template('admin.html')
 
+@app.route('/email-verification')
+def email_verification():
+    return render_template('email_verification.html')
+
+@app.route('/password-reset')
+def password_reset():
+    return render_template('password_reset.html')
+
+@app.route('/user-profile')
+def user_profile():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('user_profile.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/professor')
+def professor_dashboard():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    user = session['user']
+    if user['role'] != 'teacher':
+        return redirect(url_for('admin'))
+    
+    return render_template('professor.html')
+
+@app.route('/student')
+def student_dashboard():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    user = session['user']
+    if user['role'] != 'student':
+        return redirect(url_for('admin'))
+    
+    return render_template('student.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('home'))
+
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json()
@@ -710,10 +1370,73 @@ def api_login():
     
     result = db.authenticate_user(email, password)
     if result['success']:
-        session['user'] = result['user']
+        user = result['user']
+        
+        # Add teacherId or studentId to user session if not present
+        if user['role'] == 'teacher' and 'teacherId' not in user:
+            # Find teacher by email
+            teacher = next((t for t in db.teachers if t['email'] == email), None)
+            if teacher:
+                user['teacherId'] = teacher['id']
+        elif user['role'] == 'student' and 'studentId' not in user:
+            # Find student by email
+            student = next((s for s in db.students if s['email'] == email), None)
+            if student:
+                user['studentId'] = student['id']
+        
+        session['user'] = user
+        
+        # Add redirect URL based on user role
+        if user['role'] == 'teacher':
+            result['redirect_url'] = '/professor'
+        elif user['role'] == 'student':
+            result['redirect_url'] = '/student'
+        else:
+            result['redirect_url'] = '/admin'
+        
         return jsonify(result)
     else:
         return jsonify(result), 401
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+    data = request.get_json()
+    full_name = data.get('fullName')
+    email = data.get('email')
+    role = data.get('role')
+    phone = data.get('phone', '')
+    password = data.get('password')
+    
+    # Check if email already exists
+    existing_user = next((u for u in db.admin_users if u["email"] == email), None)
+    if existing_user:
+        return jsonify({'success': False, 'message': 'Email already exists'}), 400
+    
+    # Create new user with first-time login flag
+    new_user = {
+        "id": len(db.admin_users) + 1,
+        "email": email,
+        "password": password,
+        "name": full_name,
+        "role": role,
+        "permissions": db.get_permissions_for_role(role),
+        "lastLogin": None,  # This ensures is_first_login will be True
+        "createdAt": datetime.now().strftime("%Y-%m-%d"),
+        "phone": phone
+    }
+    
+    db.admin_users.append(new_user)
+    
+    return jsonify({
+        'success': True,
+        'message': 'Account created successfully',
+        'user': {
+            'id': new_user['id'],
+            'email': new_user['email'],
+            'name': new_user['name'],
+            'role': new_user['role']
+        }
+    })
 
 @app.route('/api/logout', methods=['POST'])
 def api_logout():
@@ -862,12 +1585,28 @@ def api_marks():
     if 'user' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
+    user = session['user']
+    
     if request.method == 'GET':
-        semester = request.args.get('semester')
-        class_name = request.args.get('class')
-        marks = db.get_marks(semester, class_name)
-        return jsonify(marks)
+        # Check if this is a student request
+        if user['role'] == 'student':
+            student_id = user.get('studentId') or next((s['id'] for s in db.students if s['email'] == user['email']), None)
+            if not student_id:
+                return jsonify({'error': 'Student not found'}), 404
+            
+            marks = db.get_marks_by_student(student_id)
+            return jsonify(marks)
+        else:
+            # Admin request - get marks by semester and class
+            semester = request.args.get('semester')
+            class_name = request.args.get('class')
+            marks = db.get_marks(semester, class_name)
+            return jsonify(marks)
     elif request.method == 'POST':
+        # Only admin can add marks
+        if user['role'] != 'admin':
+            return jsonify({'error': 'Access denied'}), 403
+        
         data = request.get_json()
         new_marks = db.add_marks(data)
         return jsonify(new_marks), 201
@@ -877,6 +1616,213 @@ def api_classes():
     if 'user' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     return jsonify(db.classes)
+
+# Assignment Management API Endpoints
+@app.route('/api/assignments', methods=['GET', 'POST'])
+def api_assignments():
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    
+    if request.method == 'GET':
+        if user['role'] == 'teacher':
+            # Get assignments created by this teacher
+            teacher_id = user.get('teacherId') or next((t['id'] for t in db.teachers if t['email'] == user['email']), None)
+            if not teacher_id:
+                return jsonify({'error': 'Teacher not found'}), 404
+            assignments = db.get_assignments_by_teacher(teacher_id)
+        elif user['role'] == 'student':
+            # Get assignments for this student's class
+            student_id = user.get('studentId') or next((s['id'] for s in db.students if s['email'] == user['email']), None)
+            if not student_id:
+                return jsonify({'error': 'Student not found'}), 404
+            assignments = db.get_assignments_by_student(student_id)
+        else:
+            return jsonify({'error': 'Insufficient permissions'}), 403
+        
+        return jsonify(assignments)
+    
+    elif request.method == 'POST':
+        if user['role'] != 'teacher':
+            return jsonify({'error': 'Only teachers can create assignments'}), 403
+        
+        data = request.get_json()
+        
+        # Get teacher ID
+        teacher_id = user.get('teacherId') or next((t['id'] for t in db.teachers if t['email'] == user['email']), None)
+        if not teacher_id:
+            return jsonify({'error': 'Teacher not found'}), 404
+        
+        data['teacherId'] = teacher_id
+        new_assignment = db.create_assignment(data)
+        return jsonify(new_assignment), 201
+
+@app.route('/api/assignments/<assignment_id>/submissions', methods=['GET'])
+def api_assignment_submissions(assignment_id):
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    if user['role'] != 'teacher':
+        return jsonify({'error': 'Only teachers can view submissions'}), 403
+    
+    submissions = db.get_submissions_by_assignment(assignment_id)
+    return jsonify(submissions)
+
+@app.route('/api/assignments/submit', methods=['POST'])
+def api_submit_assignment():
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    if user['role'] != 'student':
+        return jsonify({'error': 'Only students can submit assignments'}), 403
+    
+    # Get student ID
+    student_id = user.get('studentId') or next((s['id'] for s in db.students if s['email'] == user['email']), None)
+    if not student_id:
+        return jsonify({'error': 'Student not found'}), 404
+    
+    # Handle file uploads
+    uploaded_files = []
+    if 'files' in request.files:
+        files = request.files.getlist('files')
+        for file in files:
+            if file and file.filename and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                # Add timestamp to avoid filename conflicts
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_")
+                filename = timestamp + filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                uploaded_files.append(filename)
+    
+    # Prepare submission data
+    submission_data = {
+        'assignmentId': request.form.get('assignmentId'),
+        'submissionText': request.form.get('submissionText', ''),
+        'attachments': uploaded_files
+    }
+    
+    submission_data['studentId'] = student_id
+    new_submission = db.submit_assignment(submission_data)
+    return jsonify(new_submission), 201
+
+@app.route('/api/schedule', methods=['GET'])
+def api_schedule():
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    
+    if user['role'] == 'teacher':
+        teacher_id = user.get('teacherId') or next((t['id'] for t in db.teachers if t['email'] == user['email']), None)
+        if not teacher_id:
+            return jsonify({'error': 'Teacher not found'}), 404
+        schedule = db.get_class_schedule_by_teacher(teacher_id)
+    elif user['role'] == 'student':
+        student_id = user.get('studentId') or next((s['id'] for s in db.students if s['email'] == user['email']), None)
+        if not student_id:
+            return jsonify({'error': 'Student not found'}), 404
+        schedule = db.get_class_schedule_by_student(student_id)
+    else:
+        return jsonify({'error': 'Insufficient permissions'}), 403
+    
+    return jsonify(schedule)
+
+@app.route('/api/admin/assignments', methods=['GET'])
+def api_admin_assignments():
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    
+    if user['role'] not in ['admin', 'super_admin']:
+        return jsonify({'error': 'Access denied'}), 403
+    
+    # Return all assignments for admin view
+    assignments = []
+    for assignment in db.assignments:
+        # Convert to admin format
+        admin_assignment = {
+            "id": assignment["id"],
+            "title": assignment["title"],
+            "description": assignment["description"],
+            "subject": assignment["subject"],
+            "className": assignment["className"],
+            "teacherName": assignment["teacherName"],
+            "dueDate": assignment["dueDate"],
+            "createdDate": assignment["createdDate"],
+            "attachments": assignment.get("attachments", []),
+            "status": assignment.get("status", "active"),
+            "allowReply": assignment.get("allowReply", True)
+        }
+        assignments.append(admin_assignment)
+    
+    return jsonify(assignments)
+
+@app.route('/api/admin/assignments/<assignment_id>', methods=['DELETE'])
+def api_delete_assignment(assignment_id):
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    
+    if user['role'] not in ['admin', 'super_admin']:
+        return jsonify({'error': 'Access denied'}), 403
+    
+    # Find and remove assignment
+    assignment_index = None
+    for i, assignment in enumerate(db.assignments):
+        if assignment["id"] == assignment_id:
+            assignment_index = i
+            break
+    
+    if assignment_index is None:
+        return jsonify({'error': 'Assignment not found'}), 404
+    
+    # Remove assignment
+    deleted_assignment = db.assignments.pop(assignment_index)
+    
+    # Log activity
+    db.log_activity("assignment_deleted", f"Assignment deleted by admin: {deleted_assignment['title']}", 
+                   {"assignmentId": assignment_id, "deletedBy": user['email']})
+    
+    return jsonify({'message': 'Assignment deleted successfully'})
+
+@app.route('/api/assignments/upload', methods=['POST'])
+def api_upload_assignment_files():
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = session['user']
+    if user['role'] != 'teacher':
+        return jsonify({'error': 'Only teachers can upload files'}), 403
+    
+    try:
+        assignment_title = request.form.get('assignmentTitle')
+        files = request.files.getlist('files')
+        
+        if not files or files[0].filename == '':
+            return jsonify({'error': 'No files provided'}), 400
+        
+        uploaded_files = []
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                # Create a unique filename to avoid conflicts
+                unique_filename = f"{assignment_title}_{filename}"
+                file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+                file.save(file_path)
+                uploaded_files.append(unique_filename)
+        
+        return jsonify({
+            'message': f'Successfully uploaded {len(uploaded_files)} files',
+            'files': uploaded_files
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

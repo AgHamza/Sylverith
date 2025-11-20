@@ -2625,3 +2625,369 @@ function initializeLevelsSection() {
         });
     }
 }
+
+// Assignments Management Functions
+let allAssignments = [];
+let filteredAssignments = [];
+
+// Load all assignments for admin
+async function loadAdminAssignments() {
+    try {
+        const response = await fetch('/api/admin/assignments');
+        if (!response.ok) {
+            throw new Error('Failed to load assignments');
+        }
+        allAssignments = await response.json();
+        filteredAssignments = [...allAssignments];
+        displayAssignmentsTable();
+        populateFilters();
+    } catch (error) {
+        console.error('Error loading assignments:', error);
+        document.getElementById('assignmentsTableBody').innerHTML = 
+            '<tr><td colspan="8" class="text-center text-danger">Error loading assignments</td></tr>';
+    }
+}
+
+// Display assignments in table
+function displayAssignmentsTable() {
+    const tbody = document.getElementById('assignmentsTableBody');
+    
+    if (filteredAssignments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">No assignments found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = filteredAssignments.map(assignment => {
+        const dueDate = new Date(assignment.dueDate);
+        const createdDate = new Date(assignment.createdDate);
+        const now = new Date();
+        
+        let status = 'active';
+        let statusClass = 'status-active';
+        let statusText = 'Active';
+        
+        if (dueDate < now) {
+            status = 'expired';
+            statusClass = 'status-expired';
+            statusText = 'Expired';
+        }
+        
+        return `
+            <tr>
+                <td>
+                    <div class="assignment-title">
+                        <strong>${assignment.title}</strong>
+                        ${assignment.attachments && assignment.attachments.length > 0 ? 
+                            '<i class="fas fa-paperclip text-muted ml-2" title="Has attachments"></i>' : ''}
+                    </div>
+                </td>
+                <td>${assignment.subject}</td>
+                <td>${assignment.className}</td>
+                <td>${assignment.teacherName}</td>
+                <td>${dueDate.toLocaleDateString()}</td>
+                <td>${createdDate.toLocaleDateString()}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td>
+                    <div class="assignment-actions">
+                        <button class="btn-view" onclick="viewAssignment('${assignment.id}')" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-delete" onclick="deleteAssignment('${assignment.id}')" title="Delete Assignment">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    
+    // Also update mobile cards
+    displayAssignmentsCards();
+}
+
+// Display assignments in mobile cards
+function displayAssignmentsCards() {
+    const container = document.getElementById('assignmentsCardsContainer');
+    
+    if (filteredAssignments.length === 0) {
+        container.innerHTML = '<div class="no-data">No assignments found</div>';
+        return;
+    }
+    
+    container.innerHTML = filteredAssignments.map(assignment => {
+        const dueDate = new Date(assignment.dueDate);
+        const createdDate = new Date(assignment.createdDate);
+        const now = new Date();
+        
+        let status = 'active';
+        let statusClass = 'status-active-mobile';
+        let statusText = 'Active';
+        
+        if (dueDate < now) {
+            status = 'expired';
+            statusClass = 'status-expired-mobile';
+            statusText = 'Expired';
+        }
+        
+        return `
+            <div class="assignment-card-mobile">
+                <div class="card-header-mobile">
+                    <h3 class="card-title-mobile">${assignment.title}</h3>
+                    <span class="card-status-mobile ${statusClass}">${statusText}</span>
+                </div>
+                <div class="card-meta-mobile">
+                    <div class="meta-item-mobile">
+                        <i class="fas fa-book"></i>
+                        <span>${assignment.subject}</span>
+                    </div>
+                    <div class="meta-item-mobile">
+                        <i class="fas fa-users"></i>
+                        <span>${assignment.className}</span>
+                    </div>
+                    <div class="meta-item-mobile">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>${assignment.teacherName}</span>
+                    </div>
+                    <div class="meta-item-mobile">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>${dueDate.toLocaleDateString()}</span>
+                    </div>
+                </div>
+                <div class="card-description-mobile">
+                    ${assignment.description}
+                </div>
+                <div class="card-actions-mobile">
+                    <button class="btn-mobile btn-view-mobile" onclick="viewAssignment('${assignment.id}')">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="btn-mobile btn-delete-mobile" onclick="deleteAssignment('${assignment.id}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Toggle filters visibility
+function toggleFilters() {
+    const filtersGrid = document.getElementById('filtersGrid');
+    const filterToggle = document.getElementById('filterToggle');
+    
+    if (filtersGrid.style.display === 'none') {
+        filtersGrid.style.display = 'grid';
+        filterToggle.classList.add('rotated');
+    } else {
+        filtersGrid.style.display = 'none';
+        filterToggle.classList.remove('rotated');
+    }
+}
+
+// Populate filter dropdowns
+function populateFilters() {
+    // Populate class filter
+    const classFilter = document.getElementById('classFilter');
+    const classes = [...new Set(allAssignments.map(a => a.className))].sort();
+    classFilter.innerHTML = '<option value="">All Classes</option>' + 
+        classes.map(cls => `<option value="${cls}">${cls}</option>`).join('');
+    
+    // Populate teacher filter
+    const teacherFilter = document.getElementById('teacherFilter');
+    const teachers = [...new Set(allAssignments.map(a => a.teacherName))].sort();
+    teacherFilter.innerHTML = '<option value="">All Teachers</option>' + 
+        teachers.map(teacher => `<option value="${teacher}">${teacher}</option>`).join('');
+}
+
+// Filter assignments
+function filterAssignments() {
+    const classFilter = document.getElementById('classFilter').value;
+    const teacherFilter = document.getElementById('teacherFilter').value;
+    const subjectFilter = document.getElementById('subjectFilter').value;
+    const statusFilter = document.getElementById('statusFilter').value;
+    const dueDateFilter = document.getElementById('dueDateFilter').value;
+    
+    filteredAssignments = allAssignments.filter(assignment => {
+        const matchesClass = !classFilter || assignment.className === classFilter;
+        const matchesTeacher = !teacherFilter || assignment.teacherName === teacherFilter;
+        const matchesSubject = !subjectFilter || assignment.subject === subjectFilter;
+        
+        // Status filter
+        let matchesStatus = true;
+        if (statusFilter) {
+            const now = new Date();
+            const dueDate = new Date(assignment.dueDate);
+            const isExpired = dueDate < now;
+            
+            if (statusFilter === 'active') {
+                matchesStatus = !isExpired;
+            } else if (statusFilter === 'expired') {
+                matchesStatus = isExpired;
+            } else if (statusFilter === 'draft') {
+                matchesStatus = assignment.status === 'draft';
+            }
+        }
+        
+        // Due date filter
+        let matchesDueDate = true;
+        if (dueDateFilter) {
+            const assignmentDueDate = new Date(assignment.dueDate);
+            const filterDate = new Date(dueDateFilter);
+            
+            // Compare only year, month, and day
+            matchesDueDate = assignmentDueDate.getFullYear() === filterDate.getFullYear() &&
+                           assignmentDueDate.getMonth() === filterDate.getMonth() &&
+                           assignmentDueDate.getDate() === filterDate.getDate();
+        }
+        
+        return matchesClass && matchesTeacher && matchesSubject && matchesStatus && matchesDueDate;
+    });
+    
+    displayAssignmentsTable();
+}
+
+// View assignment details
+function viewAssignment(assignmentId) {
+    const assignment = allAssignments.find(a => a.id === assignmentId);
+    if (!assignment) return;
+    
+    // Create modal content matching teacher/student style
+    const modalContent = `
+        <div class="modal-content assignment-details-modal">
+            <div class="modal-header">
+                <h2>Assignment Details</h2>
+                <button type="button" class="close" onclick="closeAssignmentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="assignmentDetailsContent" style="width: 100%; clear: both; display: block; float: none;">
+                    <div class="assignment-details-section" style="width: 100%; clear: both; display: block; float: none;">
+                        <div class="assignment-info" style="width: 100%; clear: both; display: block; float: none;">
+                            <h3>${assignment.title}</h3>
+                            <div class="assignment-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-book"></i>
+                                    <span>${assignment.subject}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>${assignment.className}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    <span>${assignment.teacherName}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Due: ${new Date(assignment.dueDate).toLocaleDateString()}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Created: ${new Date(assignment.createdDate).toLocaleDateString()}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Status: ${assignment.status || 'Active'}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-reply"></i>
+                                    <span>Allow Reply: ${assignment.allowReply ? 'Yes' : 'No'}</span>
+                                </div>
+                            </div>
+                            <div class="assignment-description">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 1.1rem; font-weight: 600;">Description</h4>
+                                <div class="description-content">${assignment.description}</div>
+                            </div>
+                            ${assignment.attachments && assignment.attachments.length > 0 ? `
+                            <div class="assignment-attachments">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 1.1rem; font-weight: 600;">Attachments</h4>
+                                <ul class="attachments-list">
+                                    ${assignment.attachments.map(file => `
+                                        <li class="attachment-item">
+                                            <i class="fas fa-paperclip"></i>
+                                            <span>${file}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            ` : ''}
+                        </div>
+                        <div style="clear: both; width: 100%;"></div>
+                    </div>
+                    <div style="clear: both; width: 100%;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAssignmentModal()">Close</button>
+            </div>
+        </div>
+    `;
+    
+    // Create and show modal
+    const modal = document.createElement('div');
+    modal.id = 'assignmentModal';
+    modal.className = 'modal';
+    modal.innerHTML = modalContent;
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    
+    // Add click outside to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeAssignmentModal();
+        }
+    });
+}
+
+// Close assignment modal
+function closeAssignmentModal() {
+    const modal = document.getElementById('assignmentModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Delete assignment
+async function deleteAssignment(assignmentId) {
+    if (!confirm('Are you sure you want to delete this assignment? This action cannot be undone.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/admin/assignments/${assignmentId}`, {
+            method: 'DELETE'
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to delete assignment');
+        }
+        
+        // Remove from local arrays
+        allAssignments = allAssignments.filter(a => a.id !== assignmentId);
+        filteredAssignments = filteredAssignments.filter(a => a.id !== assignmentId);
+        
+        // Refresh display
+        displayAssignmentsTable();
+        populateFilters();
+        
+        showNotification('Assignment deleted successfully', 'success');
+    } catch (error) {
+        console.error('Error deleting assignment:', error);
+        showNotification('Failed to delete assignment', 'error');
+    }
+}
+
+// Refresh assignments
+function refreshAssignments() {
+    loadAdminAssignments();
+}
+
+// Update showSection function to handle assignments
+const originalShowSection = showSection;
+showSection = function(sectionName) {
+    originalShowSection(sectionName);
+    
+    if (sectionName === 'assignments') {
+        loadAdminAssignments();
+    }
+};

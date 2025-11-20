@@ -24,6 +24,30 @@ Use these test credentials to access the admin panel:
 - **Name:** Michael Chen
 - **Permissions:** Students, Parents, Classes
 
+## 🎓 Assignment Management Test Accounts
+
+### Professor Account
+- **Email:** `emily.johnson@teacher.sylverith.com`
+- **Password:** `prof123`
+- **Role:** Teacher
+- **Dashboard:** Professor Dashboard
+- **Features:** 
+  - Weekly class planning/schedule
+  - Create and manage assignments
+  - View student submissions
+  - Upload assignment attachments
+
+### Student Account
+- **Email:** `john.doe@student.sylverith.com`
+- **Password:** `student123`
+- **Role:** Student
+- **Dashboard:** Student Dashboard
+- **Features:**
+  - Weekly class calendar
+  - View assignments
+  - Submit assignments with file uploads
+  - Track submission status
+
 ## 📊 Sample Data Included
 
 The system comes pre-loaded with:
@@ -57,14 +81,15 @@ The system comes pre-loaded with:
 
 ## 🚀 How to Access
 
-1. Open `index.html` in your browser
-2. Click on "Login" or go directly to the login page
-3. Use any of the credentials above
-4. You'll be redirected to the admin dashboard
-5. Explore all the features with real data!
+1. Run the Flask application: `python app.py`
+2. Open your browser and go to `http://localhost:5000`
+3. Click on "Login" or go directly to the login page
+4. Use any of the credentials above
+5. You'll be redirected to the appropriate dashboard based on your role
 
 ## ✨ Features to Test
 
+### Admin Dashboard
 - **Dashboard:** View statistics and recent activities
 - **Student Management:** Add, edit, delete students
 - **Parent Management:** Add, edit, delete parents
@@ -72,6 +97,24 @@ The system comes pre-loaded with:
 - **Class Management:** View class information
 - **Reports:** Generate various reports
 - **Settings:** Configure system settings
+
+### Professor Dashboard
+- **Planning:** View weekly class schedule
+- **Assignments:** Create and manage assignments
+- **Submissions:** View student submissions
+- **File Upload:** Attach files to assignments
+
+### Student Dashboard
+- **Planning:** View weekly class calendar
+- **Assignments:** View assigned work
+- **Submission:** Submit assignments with files
+- **Status Tracking:** Monitor submission status
+
+## 📝 Sample Assignments
+
+The system includes sample assignments:
+- **Math Homework - Chapter 5** (Dr. Emily Johnson, Grade 5A)
+- **English Essay - My Favorite Book** (Mr. James Brown, Grade 4A)
 
 ## 🔄 Data Persistence
 
