@@ -52,18 +52,26 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification(`Login successful! Welcome ${data.user.name}`, 'success');
-            
             // Store login state if remember me is checked
             if (remember) {
                 localStorage.setItem('sylverith_remember', 'true');
                 localStorage.setItem('sylverith_email', email);
             }
             
-            // Redirect to admin dashboard
-            setTimeout(() => {
-                window.location.href = '/admin';
-            }, 1500);
+            // Check if this is a first-time login
+            if (data.is_first_login) {
+                showNotification('Welcome! Please verify your email to continue.', 'info');
+                // Redirect to email verification page
+                setTimeout(() => {
+                    window.location.href = '/email-verification';
+                }, 1500);
+            } else {
+                showNotification(`Login successful! Welcome back ${data.user.name}`, 'success');
+                // Redirect based on user role
+                setTimeout(() => {
+                    window.location.href = data.redirect_url || '/admin';
+                }, 1500);
+            }
         } else {
             showNotification(data.message || 'Invalid email or password. Please try again.', 'error');
         }

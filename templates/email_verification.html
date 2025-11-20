@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - Sylverith</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="verification-container">
+        <!-- Left Side - Clean Branding -->
+        <div class="verification-left">
+            <!-- Subtle floating elements -->
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            
+            <div class="verification-branding">
+                <img src="static/Sylverith Logo.png" alt="Sylverith Logo" class="verification-logo">
+                <h1 class="verification-brand-name">Sylverith</h1>
+                <p class="verification-tagline">School Management System</p>
+            </div>
+        </div>
+
+        <!-- Right Side - Verification Form -->
+        <div class="verification-right">
+            <div class="verification-form-container">
+                <div class="verification-logo-container">
+                    <img src="static/Sylverith Logo.png" alt="Sylverith Logo" class="verification-form-logo">
+                </div>
+                
+                <div class="verification-header">
+                    <div class="verification-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h2>Verify Your Email</h2>
+                    <p>Please check your email and click the verification link to continue</p>
+                </div>
+
+                <div class="verification-content">
+                    <div class="verification-info">
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>We've sent a verification link to your email address</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Please check your inbox and spam folder</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>This step ensures your account security</span>
+                        </div>
+                    </div>
+
+                    <div class="verification-actions">
+                        <button class="verify-btn" onclick="verifyEmail()">
+                            <span>Validate Email</span>
+                            <i class="fas fa-check"></i>
+                        </button>
+                        
+                        <div class="verification-footer">
+                            <p>Didn't receive the email?</p>
+                            <button class="resend-btn" onclick="resendEmail()">
+                                <i class="fas fa-paper-plane"></i>
+                                Resend Verification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="back-to-login">
+                    <a href="{{ url_for('login') }}" class="login-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function verifyEmail() {
+            // Show loading state
+            const verifyBtn = document.querySelector('.verify-btn');
+            const originalText = verifyBtn.innerHTML;
+            verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+            verifyBtn.disabled = true;
+            
+            // Simulate email verification process
+            setTimeout(() => {
+                // Show success notification
+                showNotification('Email verified successfully! Redirecting to password setup...', 'success');
+                
+                // Redirect to password reset page
+                setTimeout(() => {
+                    window.location.href = '/password-reset';
+                }, 2000);
+            }, 2000);
+        }
+        
+        function resendEmail() {
+            const resendBtn = document.querySelector('.resend-btn');
+            const originalText = resendBtn.innerHTML;
+            resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            resendBtn.disabled = true;
+            
+            setTimeout(() => {
+                resendBtn.innerHTML = originalText;
+                resendBtn.disabled = false;
+                showNotification('Verification email resent successfully!', 'success');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
